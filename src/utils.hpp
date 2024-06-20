@@ -1,6 +1,8 @@
+
 #pragma once
 
 #include "vec.hpp"
+
 
 int lerp(int start, int stop, double value);
 

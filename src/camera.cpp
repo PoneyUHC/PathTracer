@@ -1,4 +1,6 @@
+
 #include "camera.hpp"
+
 
 Camera::Camera(const Point3& camera_center, double aspect_ratio, int width, double focal_length) 
     : m_camera_center{camera_center}, m_aspect_ratio{aspect_ratio}, 

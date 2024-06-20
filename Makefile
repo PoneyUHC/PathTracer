@@ -11,9 +11,4 @@ default: render.exe
 $(EXEC_NAME):
 	echo $(SRC)
 	if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
-	g++ $(SRC) $(CFLAGS) -o $(BUILD_DIR)/$(EXEC_NAME)
-
-run:
-	if [ ! -d $(BUILD_DIR) ]; then mkdir $(BUILD_DIR); fi
-	g++ $(SRC) $(CFLAGS) -o $(BUILD_DIR)/$(EXEC_NAME)
-	$(BUILD_DIR)/$(EXEC_NAME) $(ARGS)
+	g++ $(SRC) $(CFLAGS) -I $(SRC_DIR) -o $(BUILD_DIR)/$(EXEC_NAME)

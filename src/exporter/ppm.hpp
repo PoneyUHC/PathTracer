@@ -1,6 +1,7 @@
+
 #pragma once
 
-#include "../vec.hpp"
+#include "vec.hpp"
 
 #include <string>
 #include <memory>

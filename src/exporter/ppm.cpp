@@ -1,7 +1,7 @@
 
 #include "ppm.hpp"
 
-#include "../utils.hpp"
+#include "utils.hpp"
 
 #include <filesystem>
 #include <iostream>
