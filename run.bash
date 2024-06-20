@@ -1,4 +1,4 @@
 
 make render.exe
-./build/render.exe 512 512
+./build/render.exe 1080
 code ./output/render.ppm

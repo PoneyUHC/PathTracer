@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../color.hpp"
+#include "../vec.hpp"
 
 #include <string>
 #include <memory>
