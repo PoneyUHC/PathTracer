@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
     
     int width = atoi(argv[1]);
 
-    Vec3 cameraPosition = Vec3{0,0,0};
+    Point3 cameraPosition = Point3{0,0,0};
     double aspectRatio = 16.0 / 9.0;
     double focalLength = 1.0;
 
@@ -34,14 +34,14 @@ int main(int argc, char *argv[]){
 
     unique_ptr<RGBColor[]> image = make_unique<RGBColor[]>(width * height);
 
-    for (int i = 0; i < height; i++) {
-        std::clog << "\rScanlines remaining: " << (height - i) << ' ' << std::flush;
-        for (int j = 0; j < width; j++) {
-            Vec3 pixelCenter = camera->GetPixelPosition(i, j).value();
+    for (int j = 0; j < height; j++) {
+        std::clog << "\rScanlines remaining: " << (height - j) << ' ' << std::flush;
+        for (int i = 0; i < width; i++) {
+            Point3 pixelCenter = camera->GetPixelPosition(i, j).value();
             Vec3 rayDirection = pixelCenter - camera->m_camera_center;
             Ray ray = Ray(camera->m_camera_center, rayDirection);
 
-            image[i * width + j] = get_ray_color(ray);
+            image[j * width + i] = get_ray_color(ray);
         }
     }
 
@@ -50,5 +50,4 @@ int main(int argc, char *argv[]){
     export_ppm("output/render.ppm", width, height, std::move(image));
 
     return 0;
-
 }

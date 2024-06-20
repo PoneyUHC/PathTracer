@@ -1,10 +1,11 @@
 #include "camera.hpp"
 
-Camera::Camera(const Vec3& camera_center, double aspect_ratio, int width, double focal_length) 
+Camera::Camera(const Point3& camera_center, double aspect_ratio, int width, double focal_length) 
     : m_camera_center{camera_center}, m_aspect_ratio{aspect_ratio}, 
         m_image_width{width}, m_focal_length{focal_length} 
 {
     m_image_height = int(m_image_width / m_aspect_ratio);
+    m_image_height = (m_image_height < 1) ? 1 : m_image_height;
     m_focal_length = 1.0;
 
     m_viewport_height = 2.0;
@@ -24,7 +25,7 @@ Camera::Camera(const Vec3& camera_center, double aspect_ratio, int width, double
 
 std::optional<Vec3> Camera::GetPixelPosition(int i, int j) 
 {
-    if(i < 0 || i >= m_image_height || j < 0 || j >= m_image_width) {
+    if(i < 0 || i >= m_image_width || j < 0 || j >= m_image_width) {
         return std::nullopt;
     }
 

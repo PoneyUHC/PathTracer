@@ -21,14 +21,14 @@ public:
     
     Vec3 m_viewport_u;
     Vec3 m_viewport_v;
-    Vec3 m_viewport_upper_left;
+    Point3 m_viewport_upper_left;
 
     Vec3 m_pixel_delta_u;
     Vec3 m_pixel_delta_v;
-    Vec3 m_pixel00_loc;
+    Point3 m_pixel00_loc;
     
     Camera(const Vec3& camera_center, double aspect_ratio, int width, double focal_length);
 
-    std::optional<Vec3> GetPixelPosition(int i, int j);
+    std::optional<Point3> GetPixelPosition(int i, int j);
 
 };

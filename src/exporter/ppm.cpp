@@ -28,13 +28,13 @@ int export_ppm(std::string filepath, int width, int height, unique_ptr<RGBColor[
 
     file << "P3\n" << width << ' ' << height << "\n255\n";
 
-    for(int j=0; j<width; ++j){
-        for(int i=0; i<height; ++i){
-            RGBColor color = buffer[i* width + j];
+    for(int j=0; j<height; ++j){
+        for(int i=0; i<width; ++i){
+            RGBColor color = buffer[j* width + i];
             
-            int x = lerp(0, 255, color.x());
-            int y = lerp(0, 255, color.y());
-            int z = lerp(0, 255, color.z());
+            int x = int(255.999 * color.x());
+            int y = int(255.999 * color.y());
+            int z = int(255.999 * color.z());
 
             file << x << ' ' << y << ' ' << z << '\n';
         }
