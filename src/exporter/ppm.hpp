@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../utils.hpp"
+#include "../color.hpp"
 
 #include <string>
 
