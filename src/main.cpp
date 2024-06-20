@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
             int ig = int(255.999 * g);
             int ib = int(255.999 * b);
 
-            image[i * width + j] = RGBColor{.r = ir, .g = ig, .b = ib};
+            image[i * width + j] = RGBColor{ir, ig, ib};
         }
     }
 
