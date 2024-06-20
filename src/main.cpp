@@ -1,36 +1,56 @@
 
-#include <iostream>
-
 #include "exporter/ppm.hpp"
+#include "camera.hpp"
+#include "utils.hpp"
+
+#include <iostream>
+#include <memory>
+
 
 using namespace std;
 
+
+RGBColor get_ray_color(const Ray& ray)
+{
+    Vec3 unitDirection = ray.Direction().Normalized();
+    double a = 0.5 * (unitDirection.y() + 1.0);
+    return lerp(RGBColor(1.0,1.0,1.0), RGBColor(0.5, 0.7, 1.0), a);
+}
+
+
 int main(int argc, char *argv[]){
 
-    if (argc != 3){
-        cout << "Usage : " << argv[0] << " width height" << endl;
+    if (argc != 2){
+        cout << "Usage : " << argv[0] << " width" << endl;
         return 1;
     }
     
     int width = atoi(argv[1]);
-    int height = atoi(argv[2]);
-    RGBColor image[width * height];
+    
 
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            auto r = double(i) / (width-1);
-            auto g = double(j) / (height-1);
-            auto b = 0.0;
+    Point3 cameraPosition = Point3{0,0,0};
+    double aspectRatio = 16.0 / 9.0;
+    double focalLength = 1.0;
 
-            int ir = int(255.999 * r);
-            int ig = int(255.999 * g);
-            int ib = int(255.999 * b);
+    unique_ptr<Camera> camera = make_unique<Camera>(cameraPosition, aspectRatio, width, focalLength);
+    int height = camera->ImageHeight();
 
-            image[i * width + j] = (RGBColor){.r = ir, .g = ig, .b = ib};
+    unique_ptr<RGBColor[]> image = make_unique<RGBColor[]>(width * height);
+
+    for (int j = 0; j < height; j++) {
+        std::clog << "\rScanlines remaining: " << (height - j) << ' ' << std::flush;
+        for (int i = 0; i < width; i++) {
+            Point3 pixelCenter = camera->GetPixelPosition(i, j).value();
+            Vec3 rayDirection = pixelCenter - camera->CameraCenter();
+            Ray ray = Ray(camera->CameraCenter(), rayDirection);
+
+            image[j * width + i] = get_ray_color(ray);
         }
     }
 
-    export_ppm("output/render.ppm", width, height, image);
-    return 0;
+    std::clog << "\rDone.\n";
 
+    export_ppm("output/render.ppm", width, height, std::move(image));
+
+    return 0;
 }
