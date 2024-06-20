@@ -1,7 +1,9 @@
+#include "color.hpp"
+#include "exporter/ppm.hpp"
 
 #include <iostream>
+#include <memory>
 
-#include "exporter/ppm.hpp"
 
 using namespace std;
 
@@ -14,7 +16,8 @@ int main(int argc, char *argv[]){
     
     int width = atoi(argv[1]);
     int height = atoi(argv[2]);
-    RGBColor image[width * height];
+
+    RGBColor *image = new RGBColor[width * height];
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
@@ -26,11 +29,13 @@ int main(int argc, char *argv[]){
             int ig = int(255.999 * g);
             int ib = int(255.999 * b);
 
-            image[i * width + j] = (RGBColor){.r = ir, .g = ig, .b = ib};
+            image[i * width + j] = RGBColor{.r = ir, .g = ig, .b = ib};
         }
     }
 
     export_ppm("output/render.ppm", width, height, image);
+
+    delete[] image;
     return 0;
 
 }
