@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
     int width = atoi(argv[1]);
     int height = atoi(argv[2]);
 
-    RGBColor *image = new RGBColor[width * height];
+    unique_ptr<RGBColor[]> image = make_unique<RGBColor[]>(width * height);
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
@@ -33,9 +33,8 @@ int main(int argc, char *argv[]){
         }
     }
 
-    export_ppm("output/render.ppm", width, height, image);
+    export_ppm("output/render.ppm", width, height, std::move(image));
 
-    delete[] image;
     return 0;
 
 }

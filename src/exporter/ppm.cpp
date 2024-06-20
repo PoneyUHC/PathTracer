@@ -11,14 +11,15 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-int export_ppm(std::string filepath, int width, int height, RGBColor *buffer)
+
+int export_ppm(std::string filepath, int width, int height, unique_ptr<RGBColor[]> buffer)
 {
     fs::path path(filepath);
     fs::path parentDir = path.parent_path();
     if( !fs::exists(parentDir) ){
         fs::create_directory(parentDir);
     }
-    
+
     ofstream file(filepath);
     if ( !file.is_open()) {
         cerr << __FUNCTION__ << " : failed to open " << filepath << endl;
