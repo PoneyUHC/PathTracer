@@ -1,11 +1,36 @@
 
 #include <iostream>
 
+#include "exporter/ppm.hpp"
+
 using namespace std;
 
 int main(int argc, char *argv[]){
 
-    cout << "hello" << endl;
+    if (argc != 3){
+        cout << "Usage : " << argv[0] << " width height" << endl;
+        return 1;
+    }
+    
+    int width = atoi(argv[1]);
+    int height = atoi(argv[2]);
+    RGBColor image[width * height];
+
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            auto r = double(i) / (width-1);
+            auto g = double(j) / (height-1);
+            auto b = 0.0;
+
+            int ir = int(255.999 * r);
+            int ig = int(255.999 * g);
+            int ib = int(255.999 * b);
+
+            image[i * width + j] = (RGBColor){.r = ir, .g = ig, .b = ib};
+        }
+    }
+
+    export_ppm("output/render.ppm", width, height, image);
     return 0;
 
 }
