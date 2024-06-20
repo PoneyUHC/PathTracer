@@ -1,6 +1,7 @@
 
 #include "ppm.hpp"
 
+
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -8,9 +9,10 @@
 
 using namespace std;
 
-
 int export_ppm(std::string filepath, int width, int height, RGBColor *buffer)
 {
+    // TODO: create boost dependency and use boost library
+    system("mkdir ./output/");
     ofstream file(filepath);
     if ( !file.is_open()) {
         cerr << __FUNCTION__ << " : failed to open " << filepath << endl;
