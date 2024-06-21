@@ -1,5 +1,5 @@
 
-#include "exporter/ppm.hpp"
+#include "export/ppm_exporter.hpp"
 #include "camera.hpp"
 #include "utils.hpp"
 #include "geometry/sphere.hpp"
@@ -48,7 +48,7 @@ int main(int argc, char *argv[]){
     scene->AddObject(sphere1);
     scene->AddObject(sphere2);
 
-    auto image = make_unique<RGBColor[]>(width * height);
+    shared_ptr<RGBColor[]> image = make_unique<RGBColor[]>(width * height);
 
     for (int j = 0; j < height; j++) {
         std::clog << "\rScanlines remaining: " << (height - j) << ' ' << std::flush;
@@ -63,7 +63,8 @@ int main(int argc, char *argv[]){
 
     std::clog << "\rDone.                 \n";
 
-    export_ppm("output/render.ppm", width, height, std::move(image));
+    PpmExporter ppmExporter("output/render.ppm");
+    ppmExporter.Export(width, height, image);
 
     return 0;
 }

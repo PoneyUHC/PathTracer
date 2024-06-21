@@ -1,7 +1,6 @@
 
-#include "ppm.hpp"
-
-#include "utils.hpp"
+#include "export/ppm_exporter.hpp"
+#include "camera.hpp"
 
 #include <filesystem>
 #include <iostream>
@@ -12,17 +11,17 @@ using namespace std;
 namespace fs = std::filesystem;
 
 
-int export_ppm(std::string filepath, int width, int height, unique_ptr<RGBColor[]> buffer)
+int PpmExporter::Export(int width, int height, std::shared_ptr<RGBColor[]> buffer) const
 {
-    fs::path path(filepath);
+    fs::path path(m_filepath);
     fs::path parentDir = path.parent_path();
     if( !fs::exists(parentDir) ){
         fs::create_directory(parentDir);
     }
 
-    ofstream file(filepath);
+    ofstream file(m_filepath);
     if ( !file.is_open()) {
-        cerr << __FUNCTION__ << " : failed to open " << filepath << endl;
+        cerr << __FUNCTION__ << " : failed to open " << m_filepath << endl;
         return 1;
     }
 
