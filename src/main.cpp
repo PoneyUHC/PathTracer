@@ -3,6 +3,7 @@
 #include "camera.hpp"
 #include "utils.hpp"
 #include "geometry/sphere.hpp"
+#include "geometry/scene.hpp"
 
 #include <iostream>
 #include <memory>
@@ -11,13 +12,11 @@
 using namespace std;
 
 
-RGBColor get_ray_color(const Ray& ray, shared_ptr<Sphere> sphere)
+RGBColor get_ray_color(const Ray& ray, shared_ptr<Scene> scene)
 {   
     HitRecord hitRecord;
-    bool bHit = sphere->Hit(ray, -10, 10, hitRecord);
-    if( bHit ){
-        Vec3 n = (hitRecord.hitPoint - Vec3(0,0,-1)).Normalized();
-        return 0.5 * RGBColor(n.x()+1, n.y()+1, n.z()+1);
+    if( scene->Hit(ray, 0, INFINITY, hitRecord) ){
+        return 0.5 * (hitRecord.normal + RGBColor(1,1,1));
     }
 
     Vec3 unitDirection = ray.Direction().Normalized();
@@ -43,7 +42,11 @@ int main(int argc, char *argv[]){
     auto camera = make_unique<Camera>(cameraPosition, aspectRatio, width, focalLength);
     int height = camera->ImageHeight();
 
-    auto sphere = make_shared<Sphere>(Point3(0,0,-1), 0.5);
+    auto scene = make_shared<Scene>();
+    auto sphere1 = make_shared<Sphere>(Point3(0,0,-1), 0.5);
+    auto sphere2 = make_shared<Sphere>(Point3(0,-100.5,-1), 100);
+    scene->AddObject(sphere1);
+    scene->AddObject(sphere2);
 
     auto image = make_unique<RGBColor[]>(width * height);
 
@@ -54,7 +57,7 @@ int main(int argc, char *argv[]){
             Vec3 rayDirection = pixelCenter - camera->CameraCenter();
             Ray ray = Ray(camera->CameraCenter(), rayDirection);
 
-            image[j * width + i] = get_ray_color(ray, sphere);
+            image[j * width + i] = get_ray_color(ray, scene);
         }
     }
 
