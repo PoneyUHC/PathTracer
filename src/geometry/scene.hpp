@@ -20,6 +20,6 @@ public:
     inline void Clear() { m_objects.clear(); }
     inline void AddObject(std::shared_ptr<IHittable> object) { m_objects.push_back(object); }
 
-    bool Hit(const Ray& ray, double tmin, double tmax, HitRecord& outRecord) const override;
+    bool Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const override;
 
 };

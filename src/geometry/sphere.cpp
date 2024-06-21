@@ -7,7 +7,7 @@
 using namespace std;
 
 
-bool Sphere::Hit(const Ray& ray, double tmin, double tmax, HitRecord& outRecord) const
+bool Sphere::Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const
 {
     const Vec3 q = ray.Origin();
     const Vec3 d = ray.Direction();
@@ -23,11 +23,14 @@ bool Sphere::Hit(const Ray& ray, double tmin, double tmax, HitRecord& outRecord)
         return false;
     }
     
-    double sqrtd = sqrt(discriminant);
+    const double sqrtd = sqrt(discriminant);
     double root = (h - sqrtd) / a;
-    if ( root <= tmin || root >= tmax ){
+    const double min = interval.Min();
+    const double max = interval.Max();
+
+    if ( root <= min || root >= max ){
         root = (h + sqrtd) / a;
-        if( root <= tmin || root >= tmax ){
+        if( root <= min || root >= max ){
             return false;
         }
     }

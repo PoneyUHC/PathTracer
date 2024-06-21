@@ -1,6 +1,7 @@
 
 #include "export/ppm_exporter.hpp"
 #include "camera.hpp"
+#include "interval.hpp"
 
 #include <filesystem>
 #include <iostream>
@@ -29,13 +30,18 @@ int PpmExporter::Export(int width, int height, std::shared_ptr<RGBColor[]> buffe
 
     for(int j=0; j<height; ++j){
         for(int i=0; i<width; ++i){
-            RGBColor color = buffer[j* width + i];
-            
-            int x = int(255.999 * color.x());
-            int y = int(255.999 * color.y());
-            int z = int(255.999 * color.z());
 
-            file << x << ' ' << y << ' ' << z << '\n';
+            RGBColor color = buffer[j* width + i];
+            double r = color.x();
+            double g = color.y();
+            double b = color.z();
+            
+            static const Interval intensity(0.000, 0.999);
+            int rbyte = int(256 * intensity.Clamp(r));
+            int gbyte = int(256 * intensity.Clamp(g));
+            int bbyte = int(256 * intensity.Clamp(b));
+
+            file << rbyte << ' ' << gbyte << ' ' << bbyte << '\n';
         }
     }
 

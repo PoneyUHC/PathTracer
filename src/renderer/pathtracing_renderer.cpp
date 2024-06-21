@@ -38,7 +38,7 @@ void PathTracingRenderer::Render() {
 RGBColor PathTracingRenderer::GetRayColor(const Ray& ray)
 {   
     HitRecord hitRecord;
-    if( m_scene->Hit(ray, 0, INFINITY, hitRecord) ){
+    if( m_scene->Hit(ray, Interval(0, INFINITY), hitRecord) ){
         return 0.5 * (hitRecord.normal + RGBColor(1,1,1));
     }
 
