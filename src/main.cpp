@@ -39,12 +39,12 @@ int main(int argc, char *argv[]){
     double aspectRatio = 16.0 / 9.0;
     double focalLength = 1.0;
 
-    unique_ptr<Camera> camera = make_unique<Camera>(cameraPosition, aspectRatio, width, focalLength);
+    auto camera = make_unique<Camera>(cameraPosition, aspectRatio, width, focalLength);
     int height = camera->ImageHeight();
 
-    shared_ptr<Sphere> sphere = make_shared<Sphere>(Point3(0,0,-1), 0.5);
+    auto sphere = make_shared<Sphere>(Point3(0,0,-1), 0.5);
 
-    unique_ptr<RGBColor[]> image = make_unique<RGBColor[]>(width * height);
+    auto image = make_unique<RGBColor[]>(width * height);
 
     for (int j = 0; j < height; j++) {
         std::clog << "\rScanlines remaining: " << (height - j) << ' ' << std::flush;
