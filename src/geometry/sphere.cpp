@@ -7,23 +7,35 @@
 using namespace std;
 
 
-std::optional<Point3> Sphere::HitPoint(const Ray& ray)
+bool Sphere::Hit(const Ray& ray, double tmin, double tmax, HitRecord& outRecord) const
 {
     const Vec3 q = ray.Origin();
     const Vec3 d = ray.Direction();
     const Vec3 qc = m_center - q;
     const double a = d.Dot(d);
-    const double b = -2 * d.Dot(qc);
-    const double c = qc.Dot(qc) - m_radius*m_radius;
+    // b = -2*h for simplified calculation
+    const double h = d.Dot(qc);
+    const double c = qc.MagnitudeSquared() - m_radius*m_radius;
 
-    const double discriminant = b*b - 4*a*c;
+    const double discriminant = h*h - a*c;
 
-    if(discriminant < 0){
-        return std::nullopt;
-    } 
+    if( discriminant < 0 ){
+        return false;
+    }
     
-    const double firstRoot = (-b - sqrt(discriminant)) / 2*a;
+    double sqrtd = sqrt(discriminant);
+    double root = (h - sqrtd) / a;
+    if ( root <= tmin || root >= tmax ){
+        root = (h + sqrtd) / a;
+        if( root <= tmin || root >= tmax ){
+            return false;
+        }
+    }
 
-    Point3 hitPoint = ray.At(firstRoot);
-    return hitPoint;
+    outRecord.t = root;
+    outRecord.hitPoint = ray.At(root);
+    Vec3 outwardNormal = (outRecord.hitPoint - m_center) / m_radius;
+    outRecord.SetFaceNormal(ray, outwardNormal);
+
+    return true;
 }

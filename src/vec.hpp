@@ -25,6 +25,7 @@ public:
 
     inline double Dot(const Vec3& other) const { return e[0]*other.e[0] + e[1]*other.e[1] + e[2]*other.e[2]; }
     inline double Magnitude() const { return std::sqrt(e[0] * e[0] + e[1] * e[1] + e[2] * e[2]); }
+    inline double MagnitudeSquared() const { return e[0] * e[0] + e[1] * e[1] + e[2] * e[2]; }
     inline Vec3 Normalized() const { return *this / this->Magnitude(); }
 };
 

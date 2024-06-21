@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include "geometry/geometry.hpp"
+#include "geometry/IHittable.hpp"
 
 
-class Sphere : public Geometry {
+class Sphere : public IHittable {
     
 private:
 
@@ -16,6 +16,6 @@ public:
     
     Sphere(const Point3& center, double radius) : m_center{center}, m_radius{radius} {};
 
-    std::optional<Point3> HitPoint(const Ray& ray) override;
+    bool Hit(const Ray& ray, double tmin, double tmax, HitRecord& outRecord) const override;
 
 };
