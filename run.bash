@@ -1,7 +1,16 @@
 
 make render.exe
+result=$?
+if [ "$result" -eq "0" ]; then
+    code ./output/render.ppm
+else
+    echo -e "\033[0;31mErrors during compilation\033[0m"
+    exit
+fi
+
 ./build/render.exe $1
 result=$?
+
 if [ "$result" -eq "0" ]; then
     code ./output/render.ppm
 else
