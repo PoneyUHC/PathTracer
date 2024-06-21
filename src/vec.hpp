@@ -29,7 +29,7 @@ public:
 };
 
 
-Vec3 operator*(double n, const Vec3& u) { return Vec3{n*u.e[0], n*u.e[1], n*u.e[2]}; }
+inline Vec3 operator*(double n, const Vec3& u) { return Vec3{n*u.e[0], n*u.e[1], n*u.e[2]}; }
 
 
 typedef Vec3 Point3;
