@@ -1,5 +1,6 @@
 
 #include "export/ppm_exporter.hpp"
+#include "renderer/pathtracing_renderer.hpp"
 #include "camera.hpp"
 #include "utils.hpp"
 #include "geometry/sphere.hpp"
@@ -10,19 +11,6 @@
 
 
 using namespace std;
-
-
-RGBColor get_ray_color(const Ray& ray, shared_ptr<Scene> scene)
-{   
-    HitRecord hitRecord;
-    if( scene->Hit(ray, 0, INFINITY, hitRecord) ){
-        return 0.5 * (hitRecord.normal + RGBColor(1,1,1));
-    }
-
-    Vec3 unitDirection = ray.Direction().Normalized();
-    double a = 0.5 * (unitDirection.y() + 1.0);
-    return lerp(RGBColor(1.0, 1.0, 1.0), RGBColor(0.5, 0.7, 1.0), a);
-}
 
 
 int main(int argc, char *argv[]){
@@ -39,7 +27,7 @@ int main(int argc, char *argv[]){
     double aspectRatio = 16.0 / 9.0;
     double focalLength = 1.0;
 
-    auto camera = make_unique<Camera>(cameraPosition, aspectRatio, width, focalLength);
+    auto camera = make_shared<Camera>(cameraPosition, aspectRatio, width, focalLength);
     int height = camera->ImageHeight();
 
     auto scene = make_shared<Scene>();
@@ -48,23 +36,11 @@ int main(int argc, char *argv[]){
     scene->AddObject(sphere1);
     scene->AddObject(sphere2);
 
-    shared_ptr<RGBColor[]> image = make_unique<RGBColor[]>(width * height);
-
-    for (int j = 0; j < height; j++) {
-        std::clog << "\rScanlines remaining: " << (height - j) << ' ' << std::flush;
-        for (int i = 0; i < width; i++) {
-            Point3 pixelCenter = camera->GetPixelPosition(i, j).value();
-            Vec3 rayDirection = pixelCenter - camera->CameraCenter();
-            Ray ray = Ray(camera->CameraCenter(), rayDirection);
-
-            image[j * width + i] = get_ray_color(ray, scene);
-        }
-    }
-
-    std::clog << "\rDone.                 \n";
+    PathTracingRenderer renderer(camera, scene);
+    renderer.Render();
 
     PpmExporter ppmExporter("output/render.ppm");
-    ppmExporter.Export(width, height, image);
+    ppmExporter.Export(width, height, renderer.GetBuffer());
 
     return 0;
 }
