@@ -7,7 +7,7 @@
 using namespace std;
 
 
-std::optional<Point3> Sphere::HitPoint(const Ray& ray)
+bool Sphere::Hit(const Ray& ray, double tmin, double tmax, HitRecord& outRecord) const
 {
     const Vec3 q = ray.Origin();
     const Vec3 d = ray.Direction();
@@ -19,12 +19,22 @@ std::optional<Point3> Sphere::HitPoint(const Ray& ray)
 
     const double discriminant = h*h - a*c;
 
-    if(discriminant < 0){
-        return std::nullopt;
-    } 
+    if( discriminant < 0 ){
+        return false;
+    }
     
-    const double firstRoot = (h - sqrt(discriminant)) / a;
+    double sqrtd = sqrt(discriminant);
+    double root = (h - sqrtd) / a;
+    if ( root <= tmin || root >= tmax ){
+        root = (h + sqrtd) / a;
+        if( root <= tmin || root >= tmax ){
+            return false;
+        }
+    }
 
-    Point3 hitPoint = ray.At(firstRoot);
-    return hitPoint;
+    outRecord.t = root;
+    outRecord.hitPoint = ray.At(root);
+    outRecord.normal = (outRecord.hitPoint - m_center) / m_radius;
+
+    return true;
 }

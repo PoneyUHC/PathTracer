@@ -12,10 +12,11 @@ using namespace std;
 
 
 RGBColor get_ray_color(const Ray& ray, shared_ptr<Sphere> sphere)
-{
-    optional<Point3> hitPoint = sphere->HitPoint(ray);
-    if( hitPoint.has_value() ){
-        Vec3 n = (hitPoint.value() - Vec3(0,0,-1)).Normalized();
+{   
+    HitRecord hitRecord;
+    bool bHit = sphere->Hit(ray, -10, 10, hitRecord);
+    if( bHit ){
+        Vec3 n = (hitRecord.hitPoint - Vec3(0,0,-1)).Normalized();
         return 0.5 * RGBColor(n.x()+1, n.y()+1, n.z()+1);
     }
 
@@ -57,7 +58,7 @@ int main(int argc, char *argv[]){
         }
     }
 
-    std::clog << "\rDone.\n";
+    std::clog << "\rDone.                 \n";
 
     export_ppm("output/render.ppm", width, height, std::move(image));
 
