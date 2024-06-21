@@ -23,7 +23,7 @@ public:
     inline bool Contains(double x) const { return x >= m_min && x <= m_max; }
     inline bool Surrounds(double x) const { return x > m_min && x < m_max; }
     
-    inline double Clamp(double x) const { x < m_min ? m_min : (x > m_max ? m_max : x); }
+    inline double Clamp(double x) const { return x < m_min ? m_min : (x > m_max ? m_max : x); }
 
     static const Interval Empty, Universe;
 };
