@@ -6,6 +6,11 @@
 #include "camera.hpp"
 
 
+struct PathTracingRendererParams {
+    int aa_sample_per_pixel;
+};
+
+
 class PathTracingRenderer : public IRenderer {
 
 private:
@@ -14,10 +19,14 @@ private:
     std::shared_ptr<Scene> m_scene;
     std::shared_ptr<RGBColor[]> m_buffer;
 
+    PathTracingRendererParams m_params;
+
+    Ray SampleRayForPixel(int i, int j) const;
+
 
 public:
 
-    PathTracingRenderer(std::shared_ptr<Camera> camera, std::shared_ptr<Scene> scene);
+    PathTracingRenderer(std::shared_ptr<Camera> camera, std::shared_ptr<Scene> scene, PathTracingRendererParams&& params);
 
     void Render() override;
     RGBColor GetRayColor(const Ray& ray);
