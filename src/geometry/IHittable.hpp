@@ -3,6 +3,7 @@
 
 #include "vec.hpp"
 #include "ray.hpp"
+#include "interval.hpp"
 
 
 struct HitRecord {
@@ -27,6 +28,6 @@ class IHittable {
 public:
 
     virtual ~IHittable() {}
-    virtual bool Hit(const Ray& ray, double tmin, double tmax, HitRecord& outRecord) const = 0;
+    virtual bool Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const = 0;
 
 };

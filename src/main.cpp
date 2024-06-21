@@ -36,7 +36,9 @@ int main(int argc, char *argv[]){
     scene->AddObject(sphere1);
     scene->AddObject(sphere2);
 
-    PathTracingRenderer renderer(camera, scene);
+    PathTracingRendererParams params;
+    params.aa_sample_per_pixel = 10;
+    PathTracingRenderer renderer(camera, scene, std::move(params));
     renderer.Render();
 
     PpmExporter ppmExporter("output/render.ppm");

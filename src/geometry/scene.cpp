@@ -5,14 +5,14 @@
 using namespace std;
 
 
-bool Scene::Hit(const Ray& ray, double tmin, double tmax, HitRecord& outRecord) const
+bool Scene::Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const
 {
     HitRecord tmpRecord;
     bool bHit;
-    double closest = tmax;
+    double closest = interval.Max();
 
     for(const shared_ptr<IHittable>& object : m_objects){
-        if (object->Hit(ray, tmin, closest, tmpRecord)){
+        if (object->Hit(ray, Interval(interval.Min(), closest), tmpRecord)){
             bHit = true;
             closest = tmpRecord.t;
         }

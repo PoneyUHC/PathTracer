@@ -17,11 +17,25 @@ public:
     double y() const { return e[1]; }
     double z() const { return e[2]; }
 
+    Vec3 operator+(const Vec3& other) const { return Vec3{e[0]+other.e[0], e[1]+other.e[1], e[2]+other.e[2]}; }
     Vec3 operator-() const { return Vec3{-e[0], -e[1], -e[2]}; }
     Vec3 operator-(const Vec3& other) const { return Vec3{e[0]-other.e[0], e[1]-other.e[1], e[2]-other.e[2]}; }
     Vec3 operator*(double n) const { return Vec3{e[0]*n, e[1]*n, e[2]*n}; }
     Vec3 operator/(double n) const { return Vec3{e[0]/n, e[1]/n, e[2]/n}; }
-    Vec3 operator+(const Vec3& other) const { return Vec3{e[0]+other.e[0], e[1]+other.e[1], e[2]+other.e[2]}; }
+
+    Vec3& operator+=(const Vec3& other) { 
+        this->e[0] += other.e[0];
+        this->e[1] += other.e[1];
+        this->e[2] += other.e[2];
+        return *this;
+    }
+
+    Vec3& operator/=(double n) { 
+        this->e[0] /= n;
+        this->e[1] /= n;
+        this->e[2] /= n;
+        return *this;
+    }
 
     inline double Dot(const Vec3& other) const { return e[0]*other.e[0] + e[1]*other.e[1] + e[2]*other.e[2]; }
     inline double Magnitude() const { return std::sqrt(e[0] * e[0] + e[1] * e[1] + e[2] * e[2]); }
