@@ -37,7 +37,8 @@ int main(int argc, char *argv[]){
     scene->AddObject(sphere2);
 
     PathTracingRendererParams params;
-    params.aa_sample_per_pixel = 10;
+    params.aa_sample_per_pixel = 20;
+    params.max_depth = 50;
     PathTracingRenderer renderer(camera, scene, std::move(params));
     renderer.Render();
 
