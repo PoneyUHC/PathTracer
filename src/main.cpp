@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
 
     PathTracingRendererParams params;
     params.aa_sample_per_pixel = 20;
-    params.max_depth = 50;
+    params.max_depth = 5;
     PathTracingRenderer renderer(camera, scene, std::move(params));
     renderer.Render();
 

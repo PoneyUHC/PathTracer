@@ -50,7 +50,7 @@ RGBColor PathTracingRenderer::GetRayColor(const Ray& ray, size_t depth)
 
     HitRecord hitRecord;
     if( m_scene->Hit(ray, Interval(0.001, INFINITY), hitRecord) ){
-        Vec3 bounce_direction = hitRecord.normal.RandomInSameHemisphere();
+        Vec3 bounce_direction = hitRecord.normal + Vec3::RandomUnitVector();
         Ray newRay = Ray(hitRecord.hitPoint, bounce_direction);
         return 0.5 * GetRayColor(newRay, depth-1);
     }
