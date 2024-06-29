@@ -3,6 +3,12 @@
 
 #include <cmath>
 
+#include <iostream>
+
+
+double random_double();
+double random_double(double min, double max);
+
 
 class Vec3 {
 
@@ -41,6 +47,31 @@ public:
     inline double Magnitude() const { return std::sqrt(e[0] * e[0] + e[1] * e[1] + e[2] * e[2]); }
     inline double MagnitudeSquared() const { return e[0] * e[0] + e[1] * e[1] + e[2] * e[2]; }
     inline Vec3 Normalized() const { return *this / this->Magnitude(); }
+
+    
+    // Requieres the current object to be a unit vector
+    inline Vec3 RandomInSameHemisphere() const {
+        Vec3 other = RandomUnitVector();
+        return other.Dot(*this) > 0.0 ? other : -other;
+    }
+
+    // Simple random in-square generation is not enough, 
+    // as the distribution in the square would be uniform, 
+    // but not the distribution of the projected vectors on unit-sphere
+    // Thus, we only take vector generated inside the sphere.
+    static inline Vec3 RandomUnitVector() {
+        Vec3 result;
+        while(true){
+            result = Vec3::Random(-1, 1);
+            if(result.MagnitudeSquared() < 1.0){
+                break;
+            }
+        }
+        return result.Normalized();
+    }
+
+    static inline Vec3 Random() { return Vec3(random_double(), random_double(), random_double()); }
+    static inline Vec3 Random(double min, double max) { return Vec3(random_double(min, max), random_double(min, max), random_double(min, max)); }
 };
 
 

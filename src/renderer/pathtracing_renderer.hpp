@@ -8,6 +8,7 @@
 
 struct PathTracingRendererParams {
     int aa_sample_per_pixel;
+    int max_depth;
 };
 
 
@@ -29,7 +30,7 @@ public:
     PathTracingRenderer(std::shared_ptr<Camera> camera, std::shared_ptr<Scene> scene, PathTracingRendererParams&& params);
 
     void Render() override;
-    RGBColor GetRayColor(const Ray& ray);
+    RGBColor GetRayColor(const Ray& ray, size_t depth);
 
     inline std::shared_ptr<RGBColor[]> GetBuffer() { return m_buffer; }
 

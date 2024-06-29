@@ -29,7 +29,7 @@ void PathTracingRenderer::Render() {
             RGBColor accumulator(0,0,0);
             for(int sample = 0; sample < m_params.aa_sample_per_pixel; ++sample){
                 Ray sampleRay = SampleRayForPixel(i, j);
-                accumulator += GetRayColor(sampleRay);
+                accumulator += GetRayColor(sampleRay, m_params.max_depth);
             }
 
             accumulator /= m_params.aa_sample_per_pixel; 
@@ -42,11 +42,17 @@ void PathTracingRenderer::Render() {
 }
 
 
-RGBColor PathTracingRenderer::GetRayColor(const Ray& ray)
+RGBColor PathTracingRenderer::GetRayColor(const Ray& ray, size_t depth)
 {   
+    if(depth == 0){
+        return RGBColor(0, 0, 0);
+    }
+
     HitRecord hitRecord;
-    if( m_scene->Hit(ray, Interval(0, INFINITY), hitRecord) ){
-        return 0.5 * (hitRecord.normal + RGBColor(1,1,1));
+    if( m_scene->Hit(ray, Interval(0.001, INFINITY), hitRecord) ){
+        Vec3 bounce_direction = hitRecord.normal + Vec3::RandomUnitVector();
+        Ray newRay = Ray(hitRecord.hitPoint, bounce_direction);
+        return 0.5 * GetRayColor(newRay, depth-1);
     }
 
     Vec3 unitDirection = ray.Direction().Normalized();

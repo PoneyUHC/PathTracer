@@ -18,7 +18,7 @@ inline double lerp(double start, double stop, double value)
 }
 
 
-inline Vec3 lerp(Vec3 start, Vec3 stop, double value)
+inline Vec3 lerp(const Vec3& start, const Vec3& stop, double value)
 {
     return  start * (1-value) + stop * value;
 }
