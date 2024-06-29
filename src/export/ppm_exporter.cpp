@@ -35,6 +35,10 @@ int PpmExporter::Export(int width, int height, std::shared_ptr<RGBColor[]> buffe
             double r = color.x();
             double g = color.y();
             double b = color.z();
+
+            r = linear_to_gamma(r);
+            g = linear_to_gamma(g);
+            b = linear_to_gamma(b);
             
             static const Interval intensity(0.000, 0.999);
             int rbyte = int(256 * intensity.Clamp(r));
