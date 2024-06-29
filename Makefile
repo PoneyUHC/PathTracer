@@ -4,7 +4,7 @@ EXEC_NAME = render.exe
 OUTPUT_DIR = output
 SRC_DIR = src
 SRC = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(SRC_DIR)/**/*.cpp)
-CFLAGS = -g -O0 -Wall -Wpedantic -std=c++17
+CFLAGS = -g -Og -Wall -Wpedantic -std=c++17
 
 default: render.exe
 
