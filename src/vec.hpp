@@ -2,12 +2,9 @@
 #pragma once
 
 #include <cmath>
-
 #include <iostream>
 
-
-double random_double();
-double random_double(double min, double max);
+#include "utils.hpp"
 
 
 class Vec3 {
@@ -29,14 +26,16 @@ public:
     Vec3 operator*(double n) const { return Vec3{e[0]*n, e[1]*n, e[2]*n}; }
     Vec3 operator/(double n) const { return Vec3{e[0]/n, e[1]/n, e[2]/n}; }
 
-    Vec3& operator+=(const Vec3& other) { 
+    Vec3& operator+=(const Vec3& other) 
+    { 
         this->e[0] += other.e[0];
         this->e[1] += other.e[1];
         this->e[2] += other.e[2];
         return *this;
     }
 
-    Vec3& operator/=(double n) { 
+    Vec3& operator/=(double n) 
+    { 
         this->e[0] /= n;
         this->e[1] /= n;
         this->e[2] /= n;
@@ -48,9 +47,21 @@ public:
     inline double MagnitudeSquared() const { return e[0] * e[0] + e[1] * e[1] + e[2] * e[2]; }
     inline Vec3 Normalized() const { return *this / this->Magnitude(); }
 
+    inline bool IsNearZero() const 
+    {
+        double s = 1e-8;
+        return (fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s);
+    }
+
+    inline Vec3 Reflect(const Vec3& normal)
+    {
+        return *this - normal*2*this->Dot(normal);
+    }
+    
     
     // Requieres the current object to be a unit vector
-    inline Vec3 RandomInSameHemisphere() const {
+    inline Vec3 RandomInSameHemisphere() const 
+    {
         Vec3 other = RandomUnitVector();
         return other.Dot(*this) > 0.0 ? other : -other;
     }
@@ -59,7 +70,8 @@ public:
     // as the distribution in the square would be uniform, 
     // but not the distribution of the projected vectors on unit-sphere
     // Thus, we only take vector generated inside the sphere.
-    static inline Vec3 RandomUnitVector() {
+    static inline Vec3 RandomUnitVector() 
+    {
         Vec3 result;
         while(true){
             result = Vec3::Random(-1, 1);
@@ -76,6 +88,7 @@ public:
 
 
 inline Vec3 operator*(double n, const Vec3& u) { return Vec3{n*u.e[0], n*u.e[1], n*u.e[2]}; }
+inline Vec3 operator*(const Vec3& u, const Vec3& v) { return Vec3{u.e[0]*v.e[0], u.e[1]*v.e[1], u.e[2]*v.e[2]}; }
 
 
 typedef Vec3 Point3;

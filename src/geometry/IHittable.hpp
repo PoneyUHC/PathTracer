@@ -8,7 +8,8 @@
 #include <memory>
 
 
-class IHittable; 
+class IHittable;
+class Material;
 
 struct HitRecord {
 
@@ -17,6 +18,7 @@ struct HitRecord {
     double t;
     bool front_face;
     std::shared_ptr<IHittable> object;
+    std::shared_ptr<Material> material;
 
 
     void SetFaceNormal(const Ray& ray, const Vec3& outwardNormal)
@@ -28,6 +30,7 @@ struct HitRecord {
 };
 
 
+// REFACTOR: create a subclass for IHittable (Mesh for example), that is a hittable that has a material
 class IHittable {
 
 public:

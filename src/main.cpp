@@ -5,6 +5,8 @@
 #include "utils.hpp"
 #include "geometry/sphere.hpp"
 #include "geometry/scene.hpp"
+#include "material/lambertian.hpp"
+#include "material/metal.hpp"
 
 #include <iostream>
 #include <memory>
@@ -30,11 +32,22 @@ int main(int argc, char *argv[]){
     auto camera = make_shared<Camera>(cameraPosition, aspectRatio, width, focalLength);
     int height = camera->ImageHeight();
 
+    auto material_ground = make_shared<Lambertian>(RGBColor(0.8, 0.8, 0.0));
+    auto material_center = make_shared<Lambertian>(RGBColor(0.1, 0.2, 0.5));
+    auto material_left   = make_shared<Metal>(RGBColor(0.8, 0.8, 0.8));
+    auto material_right  = make_shared<Metal>(RGBColor(0.8, 0.6, 0.2));
+
     auto scene = make_shared<Scene>();
-    auto sphere1 = make_shared<Sphere>(Point3(0,0,-1), 0.5);
-    auto sphere2 = make_shared<Sphere>(Point3(0,-100.5,-1), 100);
+
+    auto sphere1 = make_shared<Sphere>(Point3( 0.0, -100.5, -1.0), 100.0, material_ground);
+    auto sphere2 = make_shared<Sphere>(Point3( 0.0,    0.0, -1.2),   0.5, material_center);
+    auto sphere3 = make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.5, material_left);
+    auto sphere4 = make_shared<Sphere>(Point3( 1.0,    0.0, -1.0),   0.5, material_right);
+
     scene->AddObject(sphere1);
     scene->AddObject(sphere2);
+    scene->AddObject(sphere3);
+    scene->AddObject(sphere4);
 
     PathTracingRendererParams params;
     params.aa_sample_per_pixel = 20;
