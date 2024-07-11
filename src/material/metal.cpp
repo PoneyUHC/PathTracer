@@ -1,6 +1,7 @@
 
 #include "material/metal.hpp"
 
+#include "ray.hpp"
 #include "geometry/IHittable.hpp"
 
 

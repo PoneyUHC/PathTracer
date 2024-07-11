@@ -2,8 +2,11 @@
 #pragma once
 
 #include "renderer/IRenderer.hpp"
-#include "geometry/scene.hpp"
-#include "camera.hpp"
+
+
+class Camera;
+class Scene;
+class Ray;
 
 
 struct PathTracingRendererParams {

@@ -25,12 +25,8 @@ Camera::Camera(const Point3& camera_center, double aspect_ratio, int width, doub
 }
 
 
-std::optional<Vec3> Camera::GetPixelPosition(int i, int j) const
+Vec3 Camera::GetPixelPosition(int i, int j) const
 {
-    if(i < 0 || i >= m_image_width || j < 0 || j >= m_image_width) {
-        return std::nullopt;
-    }
-
     return m_pixel00_loc + m_pixel_delta_u * i + m_pixel_delta_v * j;
 }
 
@@ -39,9 +35,9 @@ Vec3 Camera::SamplePositionAroundPixel(int i, int j) const
 {
     Vec3 offset = sample_in_unit_square();
     
-    Vec3 samplePosition = GetPixelPosition(i, j).value()
-        + offset.x() * m_pixel_delta_u
-        + offset.y() * m_pixel_delta_v;
+    Vec3 samplePosition = GetPixelPosition(i, j)
+        + offset.X() * m_pixel_delta_u
+        + offset.Y() * m_pixel_delta_v;
 
     return samplePosition;
 }

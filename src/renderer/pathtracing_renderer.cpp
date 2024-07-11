@@ -3,6 +3,10 @@
 #include "utils.hpp"
 #include "material/material.hpp"
 #include "vec.hpp"
+#include "ray.hpp"
+#include "camera.hpp"
+#include "geometry/scene.hpp"
+#include "interval.hpp"
 
 #include <iostream>
 
@@ -61,7 +65,7 @@ RGBColor PathTracingRenderer::GetRayColor(const Ray& ray, size_t depth)
     }
 
     Vec3 unitDirection = ray.Direction().Normalized();
-    double a = 0.5 * (unitDirection.y() + 1.0);
+    double a = 0.5 * (unitDirection.Y() + 1.0);
     return lerp(RGBColor(1.0, 1.0, 1.0), RGBColor(0.5, 0.7, 1.0), a);
 }
 

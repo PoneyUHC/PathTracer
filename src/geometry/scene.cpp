@@ -1,6 +1,8 @@
 
 #include "geometry/scene.hpp"
 
+#include "interval.hpp"
+
 
 using namespace std;
 

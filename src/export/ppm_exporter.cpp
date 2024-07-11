@@ -32,9 +32,9 @@ int PpmExporter::Export(int width, int height, std::shared_ptr<RGBColor[]> buffe
         for(int i=0; i<width; ++i){
 
             RGBColor color = buffer[j* width + i];
-            double r = color.x();
-            double g = color.y();
-            double b = color.z();
+            double r = color.X();
+            double g = color.Y();
+            double b = color.Z();
 
             r = linear_to_gamma(r);
             g = linear_to_gamma(g);

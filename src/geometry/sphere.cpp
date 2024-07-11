@@ -1,6 +1,9 @@
 
 #include "sphere.hpp"
 
+#include "ray.hpp"
+#include "interval.hpp"
+
 #include <cmath>
 
 
