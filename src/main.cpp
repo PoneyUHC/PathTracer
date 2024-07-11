@@ -34,8 +34,8 @@ int main(int argc, char *argv[]){
 
     auto material_ground = make_shared<Lambertian>(RGBColor(0.8, 0.8, 0.0));
     auto material_center = make_shared<Lambertian>(RGBColor(0.1, 0.2, 0.5));
-    auto material_left   = make_shared<Metal>(RGBColor(0.8, 0.8, 0.8));
-    auto material_right  = make_shared<Metal>(RGBColor(0.8, 0.6, 0.2));
+    auto material_left   = make_shared<Metal>(RGBColor(0.8, 0.8, 0.8), 0.3);
+    auto material_right  = make_shared<Metal>(RGBColor(0.8, 0.6, 0.2), 1.0);
 
     auto scene = make_shared<Scene>();
 
