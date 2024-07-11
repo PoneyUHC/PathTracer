@@ -1,6 +1,5 @@
 
-- Section 10.6
-- reorganize main in different functions
+- Section 11
 - improve compilation time
   - move as much code as possible in .cpp files
   - create blobs
