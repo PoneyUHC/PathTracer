@@ -2,10 +2,6 @@
 #pragma once
 
 #include "vec.hpp"
-#include "ray.hpp"
-#include "utils.hpp"
-
-#include <optional>
 
 
 class Camera {
@@ -40,7 +36,7 @@ public:
     inline double ImageWidth() const { return m_image_width; }
     inline Point3 CameraCenter() const { return m_camera_center; }
 
-    std::optional<Point3> GetPixelPosition(int i, int j) const;
+    Point3 GetPixelPosition(int i, int j) const;
 
     Vec3 SamplePositionAroundPixel(int i, int j) const;
 

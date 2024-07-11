@@ -1,6 +1,9 @@
 
 #include "sphere.hpp"
 
+#include "ray.hpp"
+#include "interval.hpp"
+
 #include <cmath>
 
 
@@ -39,6 +42,7 @@ bool Sphere::Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord)
     outRecord.hitPoint = ray.At(root);
     Vec3 outwardNormal = (outRecord.hitPoint - m_center) / m_radius;
     outRecord.SetFaceNormal(ray, outwardNormal);
+    outRecord.material = m_material;
 
     return true;
 }

@@ -6,6 +6,7 @@
 #include <memory>
 #include <vector>
 
+
 class Scene : public IHittable {
 
 private:

@@ -1,6 +1,12 @@
 
 #include "renderer/pathtracing_renderer.hpp"
 #include "utils.hpp"
+#include "material/material.hpp"
+#include "vec.hpp"
+#include "ray.hpp"
+#include "camera.hpp"
+#include "geometry/scene.hpp"
+#include "interval.hpp"
 
 #include <iostream>
 
@@ -50,13 +56,16 @@ RGBColor PathTracingRenderer::GetRayColor(const Ray& ray, size_t depth)
 
     HitRecord hitRecord;
     if( m_scene->Hit(ray, Interval(0.001, INFINITY), hitRecord) ){
-        Vec3 bounce_direction = hitRecord.normal + Vec3::RandomUnitVector();
-        Ray newRay = Ray(hitRecord.hitPoint, bounce_direction);
-        return 0.5 * GetRayColor(newRay, depth-1);
+        Ray scattered_ray;
+        RGBColor attenuation(0, 0, 0);
+        if (hitRecord.material->Scatter(ray, hitRecord, attenuation, scattered_ray)){
+            return attenuation * GetRayColor(scattered_ray, depth-1);
+        }
+        return RGBColor(0, 0, 0);
     }
 
     Vec3 unitDirection = ray.Direction().Normalized();
-    double a = 0.5 * (unitDirection.y() + 1.0);
+    double a = 0.5 * (unitDirection.Y() + 1.0);
     return lerp(RGBColor(1.0, 1.0, 1.0), RGBColor(0.5, 0.7, 1.0), a);
 }
 
