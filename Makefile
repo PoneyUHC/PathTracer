@@ -1,7 +1,7 @@
 
 CXX = g++
 RM = rm -f
-CXXFLAGS = -g -O3 -Wall -Wpedantic -std=c++17 -MMD -MP
+CXXFLAGS = -O3 -Wall -Wpedantic -std=c++17 -MMD -MP
 
 EXEC = render.exe
 OUTPUT_DIR = output
@@ -23,13 +23,23 @@ all: $(EXEC)
 clean:
 	$(RM) $(OBJS_LOCATION) $(DEPS)
 
+debug: CXXFLAGS += -g -O0
+debug: $(EXEC)
+
+NB_TARGETS = $(words $(SRCS))
+CURRENT_TARGET = 0
+
 $(EXEC): $(OBJS_LOCATION)
-	if [ ! -d $(BUILD_EXEC_DIR) ]; then mkdir $(BUILD_EXEC_DIR); fi
-	$(CXX) $(OBJS_LOCATION) $(CXXFLAGS) -I $(SRC_DIR) -o $(BUILD_EXEC_DIR)/$(EXEC)
+	@if [ ! -d $(BUILD_EXEC_DIR) ]; then mkdir $(BUILD_EXEC_DIR); fi
+	@printf "\nLinking\n"
+	@$(CXX) $(OBJS_LOCATION) $(CXXFLAGS) -I $(SRC_DIR) -o $(BUILD_EXEC_DIR)/$(EXEC)
+	@printf "Done.\n"
 
 -include $(DEPS)
 
 $(BUILD_OBJS_DIR)/%.o: %.cpp Makefile
-	if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
-	$(CXX) $(CXXFLAGS) -I $(SRC_DIR) -c $< -o $@
+	$(eval CURRENT_TARGET=$(shell expr $(CURRENT_TARGET) + 1))
+	@printf "\rCompiling file $(CURRENT_TARGET) / $(NB_TARGETS)"
+	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
+	@$(CXX) $(CXXFLAGS) -I $(SRC_DIR) -c $< -o $@
 
