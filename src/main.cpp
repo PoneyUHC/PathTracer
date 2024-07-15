@@ -34,18 +34,14 @@ shared_ptr<Scene> InitScene()
     auto material_bubble = make_shared<Dielectric>(1.00 / 1.50);
     auto material_right  = make_shared<Metal>(RGBColor(0.8, 0.6, 0.2), 1.0);
 
-    auto sphere1 = make_shared<Sphere>(Point3( 0.0, -100.5, -1.0), 100.0, material_ground);
-    auto sphere2 = make_shared<Sphere>(Point3( 0.0,    0.0, -1.2),   0.5, material_center);
-    auto sphere3 = make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.5, material_left);
-    auto sphere4 = make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.4, material_bubble);
-    auto sphere5 = make_shared<Sphere>(Point3( 1.0,    0.0, -1.0),   0.5, material_right);
-
     auto scene = make_shared<Scene>();
-    scene->AddObject(sphere1);
-    scene->AddObject(sphere2);
-    scene->AddObject(sphere3);
-    scene->AddObject(sphere4);
-    scene->AddObject(sphere5);
+    scene->AddObjects({
+            make_shared<Sphere>(Point3( 0.0, -100.5, -1.0), 100.0, material_ground),
+            make_shared<Sphere>(Point3( 0.0,    0.0, -1.2),   0.5, material_center),
+            make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.5, material_left),
+            make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.4, material_bubble),
+            make_shared<Sphere>(Point3( 1.0,    0.0, -1.0),   0.5, material_right)
+    });
 
     return scene;
 }
