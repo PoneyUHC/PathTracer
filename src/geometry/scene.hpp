@@ -18,8 +18,8 @@ public:
     Scene() {};
     Scene(std::vector<std::shared_ptr<IHittable>> objects) : m_objects{objects} {};
 
-    inline void Clear() { m_objects.clear(); }
-    inline void AddObject(std::shared_ptr<IHittable> object) { m_objects.push_back(object); }
+    void Clear() { m_objects.clear(); }
+    void AddObject(std::shared_ptr<IHittable> object) { m_objects.push_back(object); }
 
     bool Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const override;
 
