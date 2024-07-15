@@ -18,29 +18,29 @@ using namespace std;
 
 shared_ptr<Camera> InitCamera(int width)
 {
-    Point3 cameraPosition = Point3{0,0,0};
-    double aspectRatio = 16.0 / 9.0;
-    double focalLength = 1.0;
+    CameraParams camera_params;
+    camera_params.aspect_ratio = 16.0 / 9.0;
+    camera_params.focal_length = 1.0;
+    camera_params.image_width = width;
+    camera_params.vfov = 90.0;
 
-    return make_shared<Camera>(cameraPosition, aspectRatio, width, focalLength);
+    Point3 cameraPosition = Point3{0,0,0};
+
+    return make_shared<Camera>(cameraPosition, std::move(camera_params));
 }
 
 
 shared_ptr<Scene> InitScene()
 {
-    auto material_ground = make_shared<Lambertian>(RGBColor(0.8, 0.8, 0.0));
-    auto material_center = make_shared<Lambertian>(RGBColor(0.1, 0.2, 0.5));
-    auto material_left   = make_shared<Dielectric>(1.50);
-    auto material_bubble = make_shared<Dielectric>(1.00 / 1.50);
-    auto material_right  = make_shared<Metal>(RGBColor(0.8, 0.6, 0.2), 1.0);
+    double R = cos(M_PI/4);
+
+    auto material_left  = make_shared<Lambertian>(RGBColor(0,0,1));
+    auto material_right = make_shared<Lambertian>(RGBColor(1,0,0));
 
     auto scene = make_shared<Scene>();
     scene->AddObjects({
-            make_shared<Sphere>(Point3( 0.0, -100.5, -1.0), 100.0, material_ground),
-            make_shared<Sphere>(Point3( 0.0,    0.0, -1.2),   0.5, material_center),
-            make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.5, material_left),
-            make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.4, material_bubble),
-            make_shared<Sphere>(Point3( 1.0,    0.0, -1.0),   0.5, material_right)
+            make_shared<Sphere>(Point3(-R, 0, -1), R, material_left),
+            make_shared<Sphere>(Point3( R, 0, -1), R, material_right)
     });
 
     return scene;

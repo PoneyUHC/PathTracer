@@ -4,6 +4,14 @@
 #include "vec.hpp"
 
 
+struct CameraParams {
+    double aspect_ratio;
+    int image_width;
+    double focal_length;
+    double vfov;
+};
+
+
 class Camera {
 
 private:
@@ -27,10 +35,12 @@ private:
     Vec3 m_pixel_delta_v;
     Point3 m_pixel00_loc;
 
+    double m_vfov;
+
 
 public:
     
-    Camera(const Point3& camera_center, double aspect_ratio, int width, double focal_length);
+    Camera(const Point3& camera_center, CameraParams&& params);
 
     double ImageHeight() const { return m_image_height; }
     double ImageWidth() const { return m_image_width; }
