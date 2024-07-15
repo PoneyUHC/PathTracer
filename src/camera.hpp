@@ -7,8 +7,10 @@
 struct CameraParams {
     double aspect_ratio;
     int image_width;
-    double focal_length;
     double vfov;
+    Point3 lookfrom;
+    Point3 lookat;
+    Vec3 vup;
 };
 
 
@@ -36,6 +38,12 @@ private:
     Point3 m_pixel00_loc;
 
     double m_vfov;
+
+    Point3 m_lookfrom;
+    Point3 m_lookat;
+    Vec3 m_vup;
+
+    Vec3 m_u, m_v ,m_w;
 
 
 public:

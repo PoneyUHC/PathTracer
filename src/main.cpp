@@ -20,9 +20,11 @@ shared_ptr<Camera> InitCamera(int width)
 {
     CameraParams camera_params;
     camera_params.aspect_ratio = 16.0 / 9.0;
-    camera_params.focal_length = 1.0;
     camera_params.image_width = width;
-    camera_params.vfov = 90.0;
+    camera_params.vfov = 20.0;
+    camera_params.lookfrom = Point3(-2,2,1);
+    camera_params.lookat   = Point3(0,0,-1);
+    camera_params.vup      = Vec3(0,1,0);
 
     Point3 cameraPosition = Point3{0,0,0};
 
@@ -32,15 +34,19 @@ shared_ptr<Camera> InitCamera(int width)
 
 shared_ptr<Scene> InitScene()
 {
-    double R = cos(M_PI/4);
-
-    auto material_left  = make_shared<Lambertian>(RGBColor(0,0,1));
-    auto material_right = make_shared<Lambertian>(RGBColor(1,0,0));
+    auto material_ground = make_shared<Lambertian>(RGBColor(0.8, 0.8, 0.0));
+    auto material_center = make_shared<Lambertian>(RGBColor(0.1, 0.2, 0.5));
+    auto material_left   = make_shared<Dielectric>(1.50);
+    auto material_bubble = make_shared<Dielectric>(1.00 / 1.50);
+    auto material_right  = make_shared<Metal>(RGBColor(0.8, 0.6, 0.2), 1.0);
 
     auto scene = make_shared<Scene>();
     scene->AddObjects({
-            make_shared<Sphere>(Point3(-R, 0, -1), R, material_left),
-            make_shared<Sphere>(Point3( R, 0, -1), R, material_right)
+        make_shared<Sphere>(Point3( 0.0, -100.5, -1.0), 100.0, material_ground),
+        make_shared<Sphere>(Point3( 0.0,    0.0, -1.2),   0.5, material_center),
+        make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.5, material_left),
+        make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.4, material_bubble),
+        make_shared<Sphere>(Point3( 1.0,    0.0, -1.0),   0.5, material_right)
     });
 
     return scene;
