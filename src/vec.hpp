@@ -56,7 +56,15 @@ public:
     {
         return *this - normal*2*this->Dot(normal);
     }
-    
+
+    friend Vec3 operator*(double n, const Vec3& u);
+    Vec3 Refract(const Vec3& n, double refraction_ratio)
+    {
+        double cos_theta = fmin((-*this).Dot(n), 1.0);
+        Vec3 r_out_perp = refraction_ratio * (*this + cos_theta*n);
+        Vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.MagnitudeSquared())) * n;
+        return r_out_perp + r_out_parallel; 
+    }
     
     // Requieres the current object to be a unit vector
     Vec3 RandomInSameHemisphere() const 
