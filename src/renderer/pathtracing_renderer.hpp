@@ -25,8 +25,6 @@ private:
 
     PathTracingRendererParams m_params;
 
-    Ray SampleRayForPixel(int i, int j) const;
-
 
 public:
 

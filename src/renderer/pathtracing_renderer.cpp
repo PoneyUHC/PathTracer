@@ -34,7 +34,7 @@ void PathTracingRenderer::Render() {
             
             RGBColor accumulator(0,0,0);
             for(int sample = 0; sample < m_params.aa_sample_per_pixel; ++sample){
-                Ray sampleRay = SampleRayForPixel(i, j);
+                Ray sampleRay = m_camera->SampleRayForPixel(i, j);
                 accumulator += GetRayColor(sampleRay, m_params.max_depth);
             }
 
@@ -67,11 +67,4 @@ RGBColor PathTracingRenderer::GetRayColor(const Ray& ray, size_t depth)
     Vec3 unitDirection = ray.Direction().Normalized();
     double a = 0.5 * (unitDirection.Y() + 1.0);
     return lerp(RGBColor(1.0, 1.0, 1.0), RGBColor(0.5, 0.7, 1.0), a);
-}
-
-
-Ray PathTracingRenderer::SampleRayForPixel(int i, int j) const
-{
-    Vec3 samplePosition = m_camera->SamplePositionAroundPixel(i, j);
-    return Ray(m_camera->CameraCenter(), samplePosition - m_camera->CameraCenter());
 }

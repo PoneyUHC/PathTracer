@@ -4,6 +4,9 @@
 #include "vec.hpp"
 
 
+class Ray;
+
+
 struct CameraParams {
     double aspect_ratio;
     int image_width;
@@ -11,6 +14,8 @@ struct CameraParams {
     Point3 lookfrom;
     Point3 lookat;
     Vec3 vup;
+    double defocus_angle;
+    double focus_dist;
 };
 
 
@@ -45,6 +50,12 @@ private:
 
     Vec3 m_u, m_v ,m_w;
 
+    double m_defocus_angle;
+    double m_focus_dist;
+
+    Vec3 m_defocus_disk_u;       // Defocus disk horizontal radius
+    Vec3 m_defocus_disk_v;
+
 
 public:
     
@@ -56,6 +67,8 @@ public:
 
     Point3 GetPixelPosition(int i, int j) const;
 
-    Vec3 SamplePositionAroundPixel(int i, int j) const;
+    Ray SampleRayForPixel(int i, int j) const;
+
+    Point3 DefocusDiskSample() const;
 
 };

@@ -23,8 +23,11 @@ shared_ptr<Camera> InitCamera(int width)
     camera_params.image_width = width;
     camera_params.vfov = 20.0;
     camera_params.lookfrom = Point3(-2,2,1);
-    camera_params.lookat   = Point3(0,0,-1);
-    camera_params.vup      = Vec3(0,1,0);
+    camera_params.lookat = Point3(0,0,-1);
+    camera_params.vup = Vec3(0,1,0);
+    camera_params.defocus_angle = 10.0;
+    camera_params.focus_dist = 3.4;
+
 
     Point3 cameraPosition = Point3{0,0,0};
 
