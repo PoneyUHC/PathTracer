@@ -35,6 +35,6 @@ public:
     void Render() override;
     RGBColor GetRayColor(const Ray& ray, size_t depth);
 
-    inline std::shared_ptr<RGBColor[]> GetBuffer() { return m_buffer; }
+    std::shared_ptr<RGBColor[]> GetBuffer() { return m_buffer; }
 
 };

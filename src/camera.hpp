@@ -32,9 +32,9 @@ public:
     
     Camera(const Point3& camera_center, double aspect_ratio, int width, double focal_length);
 
-    inline double ImageHeight() const { return m_image_height; }
-    inline double ImageWidth() const { return m_image_width; }
-    inline Point3 CameraCenter() const { return m_camera_center; }
+    double ImageHeight() const { return m_image_height; }
+    double ImageWidth() const { return m_image_width; }
+    Point3 CameraCenter() const { return m_camera_center; }
 
     Point3 GetPixelPosition(int i, int j) const;
 

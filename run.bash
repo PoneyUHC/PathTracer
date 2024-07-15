@@ -8,7 +8,7 @@ else
     exit
 fi
 
-./build/render.exe $1
+./build/executable/render.exe $1
 result=$?
 
 if [ "$result" -eq "0" ]; then

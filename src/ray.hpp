@@ -19,7 +19,7 @@ public:
 
     Point3 At(double time) const;
 
-    inline Vec3 Direction() const { return m_direction; }
-    inline Point3 Origin() const { return m_origin; }
+    Vec3 Direction() const { return m_direction; }
+    Point3 Origin() const { return m_origin; }
 
 };
