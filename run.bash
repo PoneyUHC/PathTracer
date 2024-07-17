@@ -8,7 +8,7 @@ else
     exit
 fi
 
-./build/executable/render.exe $1
+OMP_NUM_THREAD=12 ./build/executable/render.exe $1
 result=$?
 
 if [ "$result" -eq "0" ]; then

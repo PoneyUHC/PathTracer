@@ -8,7 +8,10 @@
 #include "geometry/scene.hpp"
 #include "interval.hpp"
 
+
+#include <omp.h>
 #include <iostream>
+#include <string>
 
 
 using namespace std;
@@ -28,8 +31,34 @@ void PathTracingRenderer::Render() {
     const int height = m_camera->ImageHeight();
     const int width = m_camera->ImageWidth();
 
+    
+    #ifdef _OPENMP
+        // assuming 6-8 physical cores on machine
+        int num_threads = 12;
+        string env_num_threads = get_env_var("OMP_NUM_THREAD");
+        try {
+            num_threads = stoi(env_num_threads);
+        }
+        catch (const std::exception& e){
+            // keep default value
+            cout << "OMP_NUM_THREAD is undefined" << endl;
+        }
+
+        omp_set_num_threads(num_threads);
+        cout << "Using " << num_threads << " CPU threads to render" << endl;
+
+        int progress = 0;
+        #pragma omp parallel for num_threads(num_threads) shared(progress)
+    #endif
+
     for (int j = 0; j < height; j++) {
-        std::clog << "\rScanlines remaining: " << (height - j) << ' ' << std::flush;
+
+        #ifdef _OPENMP
+            clog << "\rLines remaining: " << (height - progress) << ' ' << flush;
+        #else
+            clog << "\rLines remaining: " << (height - j) << ' ' << flush;
+        #endif
+
         for (int i = 0; i < width; i++) {
             
             RGBColor accumulator(0,0,0);
@@ -42,9 +71,16 @@ void PathTracingRenderer::Render() {
                 
             m_buffer[j * width + i] = accumulator;
         }
+
+        #ifdef _OPENMP
+            #pragma omp critical
+            {
+                ++progress;
+            }
+        #endif
     }
     
-    std::clog << "\rDone.                 \n";
+    clog << "\rDone.                 \n";
 }
 
 

@@ -1,6 +1,11 @@
 
 #pragma once
 
+#include <string>
+
+#define XSTR(x) STR(x)
+#define STR(x) #x
+
 
 class Vec3;
 
@@ -13,3 +18,4 @@ double random_double();
 double random_double(double min, double max);
 Vec3 sample_in_unit_square();
 
+std::string get_env_var(const std::string& key);

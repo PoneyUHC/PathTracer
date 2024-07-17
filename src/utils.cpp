@@ -49,3 +49,10 @@ Vec3 sample_in_unit_square()
 { 
     return Vec3(random_double() - 0.5, random_double() - 0.5, 0); 
 }
+
+
+std::string get_env_var(const std::string& key)
+{
+    char* val = getenv(key.c_str());
+    return val == NULL ? std::string("") : std::string(val);
+}
