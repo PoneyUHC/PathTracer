@@ -1,7 +1,7 @@
 
 CXX = g++
 RM = rm -f
-CXXFLAGS = -O3 -Wall -Wpedantic -std=c++17 -MMD -MP
+CXXFLAGS = -O3 -Wall -Wpedantic -std=c++17 -MMD -MP -fopenmp
 
 EXEC = render.exe
 OUTPUT_DIR = output
