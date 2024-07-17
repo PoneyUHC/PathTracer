@@ -22,35 +22,73 @@ shared_ptr<Camera> InitCamera(int width)
     camera_params.aspect_ratio = 16.0 / 9.0;
     camera_params.image_width = width;
     camera_params.vfov = 20.0;
-    camera_params.lookfrom = Point3(-2,2,1);
-    camera_params.lookat = Point3(0,0,-1);
+    camera_params.lookfrom = Point3(13,2,3);
+    camera_params.lookat = Point3(0,0,0);
     camera_params.vup = Vec3(0,1,0);
-    camera_params.defocus_angle = 10.0;
-    camera_params.focus_dist = 3.4;
+    camera_params.defocus_angle = 0.6;
+    camera_params.focus_dist = 10.0;
 
-
-    Point3 cameraPosition = Point3{0,0,0};
-
-    return make_shared<Camera>(cameraPosition, std::move(camera_params));
+    return make_shared<Camera>(std::move(camera_params));
 }
 
 
 shared_ptr<Scene> InitScene()
 {
-    auto material_ground = make_shared<Lambertian>(RGBColor(0.8, 0.8, 0.0));
-    auto material_center = make_shared<Lambertian>(RGBColor(0.1, 0.2, 0.5));
-    auto material_left   = make_shared<Dielectric>(1.50);
-    auto material_bubble = make_shared<Dielectric>(1.00 / 1.50);
-    auto material_right  = make_shared<Metal>(RGBColor(0.8, 0.6, 0.2), 1.0);
-
     auto scene = make_shared<Scene>();
-    scene->AddObjects({
-        make_shared<Sphere>(Point3( 0.0, -100.5, -1.0), 100.0, material_ground),
-        make_shared<Sphere>(Point3( 0.0,    0.0, -1.2),   0.5, material_center),
-        make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.5, material_left),
-        make_shared<Sphere>(Point3(-1.0,    0.0, -1.0),   0.4, material_bubble),
-        make_shared<Sphere>(Point3( 1.0,    0.0, -1.0),   0.5, material_right)
-    });
+
+    auto ground_material = make_shared<Lambertian>(RGBColor(0.5, 0.5, 0.5));
+    scene->AddObject(
+        make_shared<Sphere>(Point3(0,-1000,0), 1000, ground_material)
+    );
+
+    for (int a = -11; a < 11; a++) {
+        for (int b = -11; b < 11; b++) {
+            auto choose_mat = random_double();
+            Point3 center(a + 0.9*random_double(), 0.2, b + 0.9*random_double());
+
+            if ((center - Point3(4, 0.2, 0)).Magnitude() > 0.9) {
+                shared_ptr<Material> sphere_material;
+
+                if (choose_mat < 0.8) {
+                    // diffuse
+                    auto albedo = RGBColor::Random(0,1) * RGBColor::Random(0,1);
+                    sphere_material = make_shared<Lambertian>(albedo);
+                    scene->AddObject(
+                        make_shared<Sphere>(center, 0.2, sphere_material)
+                    );
+                } else if (choose_mat < 0.95) {
+                    // metal
+                    auto albedo = RGBColor::Random(0.5, 1);
+                    auto fuzz = random_double(0, 0.5);
+                    sphere_material = make_shared<Metal>(albedo, fuzz);
+                    scene->AddObject(
+                        make_shared<Sphere>(center, 0.2, sphere_material)
+                    );
+                } else {
+                    // glass
+                    sphere_material = make_shared<Dielectric>(1.5);
+                    scene->AddObject(
+                        make_shared<Sphere>(center, 0.2, sphere_material)
+                    );
+                }
+            }
+        }
+    }
+
+    auto material1 = make_shared<Dielectric>(1.5);
+    scene->AddObject(
+        make_shared<Sphere>(Point3(0, 1, 0), 1.0, material1)
+    );
+
+    auto material2 = make_shared<Lambertian>(RGBColor(0.4, 0.2, 0.1));
+    scene->AddObject(
+        make_shared<Sphere>(Point3(-4, 1, 0), 1.0, material2)
+    );
+
+    auto material3 = make_shared<Metal>(RGBColor(0.7, 0.6, 0.5), 0.0);
+    scene->AddObject(
+        make_shared<Sphere>(Point3(4, 1, 0), 1.0, material3)
+    );
 
     return scene;
 }
@@ -59,8 +97,8 @@ shared_ptr<Scene> InitScene()
 PathTracingRenderer InitRenderer(shared_ptr<Camera> camera, shared_ptr<Scene> scene)
 {
     PathTracingRendererParams params;
-    params.aa_sample_per_pixel = 20;
-    params.max_depth = 10;
+    params.aa_sample_per_pixel = 500;
+    params.max_depth = 50;
 
     return PathTracingRenderer(camera, scene, std::move(params));
 }

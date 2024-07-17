@@ -4,7 +4,7 @@
 #include "ray.hpp"
 
 
-Camera::Camera(const Point3& camera_center, CameraParams&& params) 
+Camera::Camera(CameraParams&& params) 
 {
     m_aspect_ratio = params.aspect_ratio;
     m_image_width = params.image_width;

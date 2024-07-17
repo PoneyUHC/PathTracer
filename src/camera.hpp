@@ -59,7 +59,7 @@ private:
 
 public:
     
-    Camera(const Point3& camera_center, CameraParams&& params);
+    Camera(CameraParams&& params);
 
     double ImageHeight() const { return m_image_height; }
     double ImageWidth() const { return m_image_width; }
