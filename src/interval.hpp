@@ -15,7 +15,9 @@ public:
     Interval(double min, double max) : m_min{min}, m_max{max} {}
 
     double Max() const { return m_max; }
+    double SetMax(double value) { return m_max = value; }
     double Min() const { return m_min; }
+    double SetMin(double value) { return m_min = value; }
     double Size() const { return m_max - m_min; }
     
     bool Contains(double x) const { return x >= m_min && x <= m_max; }

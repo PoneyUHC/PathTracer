@@ -25,6 +25,6 @@ public:
         m_objects.insert(m_objects.end(), objects.begin(), objects.end()); 
     }
 
-    bool Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const override;
+    bool Hit(const Ray& ray, Interval& interval, HitRecord& outRecord) const override;
 
 };

@@ -91,7 +91,8 @@ RGBColor PathTracingRenderer::GetRayColor(const Ray& ray, size_t depth)
     }
 
     HitRecord hitRecord;
-    if( m_scene->Hit(ray, Interval(0.001, INFINITY), hitRecord) ){
+    Interval interval = Interval(0.001, INFINITY);
+    if( m_scene->Hit(ray, interval, hitRecord) ){
         Ray scattered_ray;
         RGBColor attenuation(0, 0, 0);
         if (hitRecord.material->Scatter(ray, hitRecord, attenuation, scattered_ray)){

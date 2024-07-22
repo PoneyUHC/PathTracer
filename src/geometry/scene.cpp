@@ -7,22 +7,21 @@
 using namespace std;
 
 
-bool Scene::Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const
+bool Scene::Hit(const Ray& ray, Interval& interval, HitRecord& outRecord) const
 {
-    HitRecord tmpRecord;
+    HitRecord tmp_record;
     bool bHit = false;
-    double closest = interval.Max();
 
     for(const shared_ptr<IHittable>& object : m_objects){
-        if (object->Hit(ray, Interval(interval.Min(), closest), tmpRecord)){
+        if (object->Hit(ray, interval, tmp_record)){
             bHit = true;
-            closest = tmpRecord.t;
-            tmpRecord.object = object;
+            interval.SetMax(tmp_record.t);
+            tmp_record.object = object;
         }
     }
 
     // can be outside as closest is the last modifier of record
-    outRecord = tmpRecord;
+    outRecord = tmp_record;
     
 
     return bHit;
