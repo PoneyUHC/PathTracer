@@ -2,6 +2,7 @@
 #pragma once
 
 #include "vec.hpp"
+#include "geometry/aabb.hpp"
 
 #include <memory>
 
@@ -32,6 +33,9 @@ class IHittable {
 public:
 
     virtual ~IHittable() {}
+
     virtual bool Hit(const Ray& ray, Interval& interval, HitRecord& outRecord) const = 0;
+
+    virtual AABB GetAABB() const = 0;
 
 };

@@ -10,6 +10,14 @@
 using namespace std;
 
 
+Sphere::Sphere(const Point3& center, double radius, std::shared_ptr<Material> material) 
+    : m_center{center}, m_radius{radius}, m_material{material} 
+{
+    Vec3 aabb_corner = Vec3(m_radius, m_radius, m_radius);
+    m_aabb = AABB(m_center - aabb_corner, m_center + aabb_corner);
+}
+
+
 bool Sphere::Hit(const Ray& ray, Interval& interval, HitRecord& outRecord) const
 {
     const Vec3 q = ray.Origin();

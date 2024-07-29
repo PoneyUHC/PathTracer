@@ -5,7 +5,7 @@
 
 
 class Camera;
-class Scene;
+class HittableList;
 class Ray;
 
 
@@ -20,7 +20,7 @@ class PathTracingRenderer : public IRenderer {
 private:
 
     std::shared_ptr<Camera> m_camera;
-    std::shared_ptr<Scene> m_scene;
+    std::shared_ptr<HittableList> m_scene;
     std::shared_ptr<RGBColor[]> m_buffer;
 
     PathTracingRendererParams m_params;
@@ -28,7 +28,7 @@ private:
 
 public:
 
-    PathTracingRenderer(std::shared_ptr<Camera> camera, std::shared_ptr<Scene> scene, PathTracingRendererParams&& params);
+    PathTracingRenderer(std::shared_ptr<Camera> camera, std::shared_ptr<HittableList> scene, PathTracingRendererParams&& params);
 
     void Render() override;
     RGBColor GetRayColor(const Ray& ray, size_t depth);

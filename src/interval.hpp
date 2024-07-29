@@ -12,7 +12,12 @@ private:
 
 public:
 
-    Interval(double min, double max) : m_min{min}, m_max{max} {}
+    Interval() {}
+    Interval(double min, double max): m_min{min}, m_max{max} {}
+    Interval(const Interval& i1, const Interval& i2) {
+        m_min = i1.m_min <= i2.m_min ? i1.m_min : i2.m_min;
+        m_max = i1.m_max >= i2.m_max ? i1.m_max : i2.m_max;
+    }
 
     double Max() const { return m_max; }
     double SetMax(double value) { return m_max = value; }
@@ -22,6 +27,14 @@ public:
     
     bool Contains(double x) const { return x >= m_min && x <= m_max; }
     bool Surrounds(double x) const { return x > m_min && x < m_max; }
+    bool Overlaps(const Interval& other) const;
+    
+    void Expand(double delta) 
+    { 
+        double padding = delta / 2;
+        m_min -= padding;
+        m_max += padding;
+    }
     
     double Clamp(double x) const { return x < m_min ? m_min : (x > m_max ? m_max : x); }
 

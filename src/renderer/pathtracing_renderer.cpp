@@ -5,7 +5,7 @@
 #include "vec.hpp"
 #include "ray.hpp"
 #include "camera.hpp"
-#include "geometry/scene.hpp"
+#include "geometry/hittable_list.hpp"
 #include "interval.hpp"
 
 
@@ -18,7 +18,7 @@ using namespace std;
 
 
 PathTracingRenderer::PathTracingRenderer(
-    std::shared_ptr<Camera> camera, std::shared_ptr<Scene> scene, PathTracingRendererParams&& params
+    std::shared_ptr<Camera> camera, std::shared_ptr<HittableList> scene, PathTracingRendererParams&& params
 )
     : m_camera{camera}, m_scene{scene}, m_params{params}
 {
@@ -54,7 +54,10 @@ void PathTracingRenderer::Render() {
     for (int j = 0; j < height; j++) {
 
         #ifdef _OPENMP
-            clog << "\rLines remaining: " << (height - progress) << ' ' << flush;
+            #pragma omp critical
+            {
+                clog << "\rLines remaining: " << (height - progress) << ' ' << flush;
+            }
         #else
             clog << "\rLines remaining: " << (height - j) << ' ' << flush;
         #endif
