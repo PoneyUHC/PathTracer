@@ -18,7 +18,7 @@ Sphere::Sphere(const Point3& center, double radius, std::shared_ptr<Material> ma
 }
 
 
-bool Sphere::Hit(const Ray& ray, Interval& interval, HitRecord& outRecord) const
+bool Sphere::Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const
 {
     const Vec3 q = ray.Origin();
     const Vec3 d = ray.Direction();

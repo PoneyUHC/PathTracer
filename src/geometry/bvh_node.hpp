@@ -21,7 +21,7 @@ public:
 
     BVHNode(std::vector<std::shared_ptr<IHittable>>& objects, size_t start, size_t end);
 
-    bool Hit(const Ray& ray, Interval& interval, HitRecord& outRecord) const;
+    bool Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const;
 
     AABB GetAABB() const override { return m_aabb; }
 

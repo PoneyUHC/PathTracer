@@ -51,7 +51,7 @@ BVHNode::BVHNode(vector<shared_ptr<IHittable>>& objects, size_t start, size_t en
 }
 
 
-bool BVHNode::Hit(const Ray &ray, Interval &interval, HitRecord &outRecord) const
+bool BVHNode::Hit(const Ray &ray, const Interval &interval, HitRecord &outRecord) const
 {
     if (!m_aabb.Hit(ray, interval)){
         return false;

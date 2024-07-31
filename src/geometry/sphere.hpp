@@ -21,7 +21,7 @@ public:
     
     Sphere(const Point3& center, double radius, std::shared_ptr<Material> material);
 
-    bool Hit(const Ray& ray, Interval& interval, HitRecord& outRecord) const override;
+    bool Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const override;
 
     AABB GetAABB() const override { return m_aabb; }
     

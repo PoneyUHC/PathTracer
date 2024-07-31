@@ -25,7 +25,7 @@ public:
     void AddObject(std::shared_ptr<IHittable> object);
     void AddObjects(std::vector<std::shared_ptr<IHittable>> objects);
 
-    bool Hit(const Ray& ray, Interval& interval, HitRecord& outRecord) const override;
+    bool Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const override;
 
     AABB GetAABB() const override;
 

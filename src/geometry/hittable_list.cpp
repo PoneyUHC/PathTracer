@@ -22,15 +22,17 @@ void HittableList::AddObjects(std::vector<std::shared_ptr<IHittable>> objects)
 }
 
 
-bool HittableList::Hit(const Ray &ray, Interval &interval, HitRecord &outRecord) const
+bool HittableList::Hit(const Ray &ray, const Interval &interval, HitRecord &outRecord) const
 {
     HitRecord tmp_record;
     bool bHit = false;
 
+    Interval closest = interval;
+
     for(const shared_ptr<IHittable>& object : m_objects){
-        if (object->Hit(ray, interval, tmp_record)){
+        if (object->Hit(ray, closest, tmp_record)){
             bHit = true;
-            interval.SetMax(tmp_record.t);
+            closest.SetMax(tmp_record.t);
             tmp_record.object = object;
         }
     }

@@ -22,7 +22,7 @@ public:
     AABB(const Point3& a, const Point3& b);
     AABB(const AABB& aabb1, const AABB& aabb2);
 
-    bool Hit(const Ray& ray, Interval& interval) const;
+    bool Hit(const Ray& ray, const Interval& interval) const;
     const Interval& IndexToInterval(int index) const;
     int LongestAxis() const;
 

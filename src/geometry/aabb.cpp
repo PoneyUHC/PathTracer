@@ -46,10 +46,12 @@ AABB::AABB(const AABB &aabb1, const AABB &aabb2)
 }
 
 
-bool AABB::Hit(const Ray &ray, Interval &interval) const
+bool AABB::Hit(const Ray &ray, const Interval &interval) const
 {
     const Point3& ray_origin = ray.Origin();
     const Vec3& ray_direction = ray.Direction();
+
+    Interval overlap = interval;
 
     for(int i=0; i<3; ++i){
         const Interval& axis_interval = IndexToInterval(i);
@@ -59,14 +61,14 @@ bool AABB::Hit(const Ray &ray, Interval &interval) const
         double t1 = (axis_interval.Max() - ray_origin.e[i]) * dir_inv;
 
         if (t0 < t1){
-            if (t0 > interval.Min()) interval.SetMin(t0);
-            if (t1 < interval.Max()) interval.SetMax(t1);
+            if (t0 > overlap.Min()) overlap.SetMin(t0);
+            if (t1 < overlap.Max()) overlap.SetMax(t1);
         } else {
-            if (t1 > interval.Min()) interval.SetMin(t1);
-            if (t0 < interval.Max()) interval.SetMax(t0);
+            if (t1 > overlap.Min()) overlap.SetMin(t1);
+            if (t0 < overlap.Max()) overlap.SetMax(t0);
         }
 
-        if (interval.Max() <= interval.Min()){
+        if (overlap.Max() <= overlap.Min()){
             return false;
         }
     }

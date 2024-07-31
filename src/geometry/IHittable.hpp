@@ -34,7 +34,7 @@ public:
 
     virtual ~IHittable() {}
 
-    virtual bool Hit(const Ray& ray, Interval& interval, HitRecord& outRecord) const = 0;
+    virtual bool Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const = 0;
 
     virtual AABB GetAABB() const = 0;
 
