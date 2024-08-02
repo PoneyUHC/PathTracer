@@ -1,8 +1,8 @@
 
 #include "sphere.hpp"
 
-#include "ray.hpp"
-#include "interval.hpp"
+#include "math/ray.hpp"
+#include "math/interval.hpp"
 
 #include <cmath>
 

@@ -1,7 +1,7 @@
 
-#include "camera.hpp"
+#include "renderer/camera.hpp"
 
-#include "ray.hpp"
+#include "math/ray.hpp"
 
 
 Camera::Camera(CameraParams&& params) 

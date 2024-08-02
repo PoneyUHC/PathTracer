@@ -1,7 +1,7 @@
 
 #include "aabb.hpp"
 
-#include "ray.hpp"
+#include "math/ray.hpp"
 
 #include <cmath>
 

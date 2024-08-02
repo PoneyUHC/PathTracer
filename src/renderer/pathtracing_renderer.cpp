@@ -1,13 +1,13 @@
 
+#include "math/vec.hpp"
+#include "math/ray.hpp"
+#include "math/interval.hpp"
+#include "math/math_utils.hpp"
+#include "renderer/camera.hpp"
 #include "renderer/pathtracing_renderer.hpp"
-#include "utils.hpp"
-#include "material/material.hpp"
-#include "vec.hpp"
-#include "ray.hpp"
-#include "camera.hpp"
 #include "geometry/hittable_list.hpp"
-#include "interval.hpp"
-
+#include "material/material.hpp"
+#include "utils.hpp"
 
 #include <omp.h>
 #include <iostream>

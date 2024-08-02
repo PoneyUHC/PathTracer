@@ -1,7 +1,7 @@
 
 #include "geometry/hittable_list.hpp"
 
-#include "interval.hpp"
+#include "math/interval.hpp"
 #include "hittable_list.hpp"
 
 

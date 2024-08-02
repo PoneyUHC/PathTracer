@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-#include "utils.hpp"
+#include "math/math_utils.hpp"
 
 
 class Vec3 {

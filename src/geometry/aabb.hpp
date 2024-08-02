@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include "interval.hpp"
-#include "vec.hpp"
+#include "math/interval.hpp"
+#include "math/vec.hpp"
 
 
 class Ray;

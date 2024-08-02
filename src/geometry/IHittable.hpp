@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "vec.hpp"
+#include "math/vec.hpp"
 #include "geometry/aabb.hpp"
 
 #include <memory>

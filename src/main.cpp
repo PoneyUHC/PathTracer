@@ -1,14 +1,14 @@
 
-#include "export/ppm_exporter.hpp"
 #include "renderer/pathtracing_renderer.hpp"
-#include "camera.hpp"
-#include "utils.hpp"
+#include "renderer/camera.hpp"
+#include "math/math_utils.hpp"
 #include "geometry/sphere.hpp"
 #include "geometry/hittable_list.hpp"
+#include "geometry/bvh_node.hpp"
 #include "material/lambertian.hpp"
 #include "material/metal.hpp"
 #include "material/dielectric.hpp"
-#include "geometry/bvh_node.hpp"
+#include "export/ppm_exporter.hpp"
 
 #include <iostream>
 #include <memory>

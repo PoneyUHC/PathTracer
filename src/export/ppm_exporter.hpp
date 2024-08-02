@@ -2,7 +2,7 @@
 #pragma once
 
 #include "export/IExporter.hpp"
-#include "vec.hpp"
+#include "math/vec.hpp"
 
 #include <string>
 #include <memory>

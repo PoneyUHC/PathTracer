@@ -1,7 +1,7 @@
 
-#include "ray.hpp"
+#include "math/ray.hpp"
 
-#include "vec.hpp"
+#include "math/vec.hpp"
 
 
 Point3 Ray::At(double time) const

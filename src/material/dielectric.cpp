@@ -1,8 +1,9 @@
 
 #include "dielectric.hpp"
 
-#include "vec.hpp"
-#include "ray.hpp"
+#include "math/math_utils.hpp"
+#include "math/vec.hpp"
+#include "math/ray.hpp"
 #include "geometry/IHittable.hpp"
 
 

@@ -1,7 +1,7 @@
 
 #include "export/ppm_exporter.hpp"
-#include "camera.hpp"
-#include "interval.hpp"
+#include "renderer/camera.hpp"
+#include "math/interval.hpp"
 
 #include <filesystem>
 #include <iostream>
