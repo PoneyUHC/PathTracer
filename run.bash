@@ -10,7 +10,7 @@ OMP_NUM_THREAD=12 ./build/executable/render.exe $1
 result=$?
 
 if [ "$result" -eq "0" ]; then
-    code ./output/render.ppm
+    code ./output/render.png
 else
     echo -e "\033[0;31mErrors during execution\033[0m"
 fi

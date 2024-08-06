@@ -9,6 +9,7 @@
 #include "material/metal.hpp"
 #include "material/dielectric.hpp"
 #include "export/ppm_exporter.hpp"
+#include "export/png_exporter.hpp"
 
 #include <iostream>
 #include <memory>
@@ -115,27 +116,44 @@ PathTracingRenderer InitRenderer(shared_ptr<Camera> camera, shared_ptr<HittableL
 
 int main(int argc, char *argv[]){
 
-    if (argc != 2){
-        cout << "Usage : " << argv[0] << " width" << endl;
-        return 1;
-    }
+    // if (argc != 2){
+    //     cout << "Usage : " << argv[0] << " width" << endl;
+    //     return 1;
+    // }
 
-    cout << "Initializing scene" << endl;
+    // cout << "Initializing scene" << endl;
     
-    int width = atoi(argv[1]);
+    // int width = atoi(argv[1]);
 
-    bool enable_bvh = true;
+    // bool enable_bvh = true;
 
-    shared_ptr<Camera> camera = InitCamera(width);
-    shared_ptr<HittableList> scene = InitScene(enable_bvh);
+    // shared_ptr<Camera> camera = InitCamera(width);
+    // shared_ptr<HittableList> scene = InitScene(enable_bvh);
 
-    PathTracingRenderer renderer = InitRenderer(camera, scene);
+    // PathTracingRenderer renderer = InitRenderer(camera, scene);
 
-    cout << "Starting rendering" << endl;
-    renderer.Render();
+    // cout << "Starting rendering" << endl;
+    // renderer.Render();
 
-    PpmExporter ppmExporter("output/render.ppm");
-    ppmExporter.Export(camera->ImageWidth(), camera->ImageHeight(), renderer.GetBuffer());
+    // PngExporter png_exporter("output/render.png");
+    // png_exporter.Export(camera->ImageWidth(), camera->ImageHeight(), renderer.GetBuffer());
+
+    int width = 3;
+    int height = 3;
+    auto buffer = shared_ptr<RGBColor[]>(new RGBColor[] {
+        RGBColor(1,0,0),
+        RGBColor(0,1,0),
+        RGBColor(0,0,1),
+        RGBColor(1,0,0),
+        RGBColor(0,1,0),
+        RGBColor(0,0,1),
+        RGBColor(1,0,0),
+        RGBColor(0,1,0),
+        RGBColor(0,0,1),
+    });
+
+    PngExporter png_exporter("output/render.png");
+    png_exporter.Export(width, height, buffer);
 
     return 0;
 }
