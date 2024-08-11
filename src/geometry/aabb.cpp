@@ -32,9 +32,9 @@ int AABB::LongestAxis() const
 
 AABB::AABB(const Point3 &a, const Point3 &b)
 {
-    m_x = (a.X() <= b.X()) ? Interval(a.X(), b.X()) : Interval(b.X(), a.X());
-    m_y = (a.Y() <= b.Y()) ? Interval(a.Y(), b.Y()) : Interval(b.Y(), a.Y());
-    m_z = (a.Z() <= b.Z()) ? Interval(a.Z(), b.Z()) : Interval(b.Z(), a.Z());
+    m_x = (a[0] <= b[0]) ? Interval(a[0], b[0]) : Interval(b[0], a[0]);
+    m_y = (a[1] <= b[1]) ? Interval(a[1], b[1]) : Interval(b[1], a[1]);
+    m_z = (a[2] <= b[2]) ? Interval(a[2], b[2]) : Interval(b[2], a[2]);
 }
 
 

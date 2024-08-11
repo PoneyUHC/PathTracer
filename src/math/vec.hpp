@@ -15,9 +15,8 @@ public:
     Vec3() : e{0,0,0} {}
     Vec3(double x, double y, double z): e{x,y,z} {}
 
-    double X() const { return e[0]; }
-    double Y() const { return e[1]; }
-    double Z() const { return e[2]; }
+    double operator[](int i) const { return e[i]; }
+    double& operator[](int i) { return e[i]; }
 
     Vec3 operator+(const Vec3& other) const { return Vec3{e[0]+other.e[0], e[1]+other.e[1], e[2]+other.e[2]}; }
     Vec3 operator-() const { return Vec3{-e[0], -e[1], -e[2]}; }

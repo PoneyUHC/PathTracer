@@ -27,9 +27,9 @@ public:
 
 
     static void rgb_normalized_to_8bits(const RGBColor& color, uint8_t *dest){
-        double r = color.X();
-        double g = color.Y();
-        double b = color.Z();
+        double r = color[0];
+        double g = color[1];
+        double b = color[2];
 
         r = linear_to_gamma(r);
         g = linear_to_gamma(g);
