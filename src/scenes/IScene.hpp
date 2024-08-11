@@ -30,7 +30,7 @@ protected:
 public:
 
     ~IScene() = default;
-    virtual int Build(SceneParams&& params) = 0;
+    virtual void Build(SceneParams&& params) = 0;
     virtual std::shared_ptr<RGBColor[]> Render() = 0;
 
     const Camera* GetCamera() { return m_camera.get(); }

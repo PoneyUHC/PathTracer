@@ -14,7 +14,7 @@
 using namespace std;
 
 
-shared_ptr<Camera> SparsedSphereScene::InitCamera()
+shared_ptr<Camera> SparsedSpheresScene::InitCamera()
 {
     CameraParams camera_params;
     camera_params.aspect_ratio = 16.0 / 9.0;
@@ -30,7 +30,7 @@ shared_ptr<Camera> SparsedSphereScene::InitCamera()
 }
 
 
-shared_ptr<HittableList> SparsedSphereScene::InitObjects()
+shared_ptr<HittableList> SparsedSpheresScene::InitObjects()
 {
     auto hittable_list = make_shared<HittableList>();
 
@@ -100,26 +100,26 @@ shared_ptr<HittableList> SparsedSphereScene::InitObjects()
 }
 
 
-shared_ptr<PathTracingRenderer> SparsedSphereScene::InitRenderer()
+shared_ptr<PathTracingRenderer> SparsedSpheresScene::InitRenderer()
 {
     PathTracingRendererParams params;
     params.aa_sample_per_pixel = 100;
     params.max_depth = 20;
 
-    return make_shared<PathTracingRenderer>(m_camera, m_objets, std::move(params));
+    return make_shared<PathTracingRenderer>(m_camera, m_objets, move(params));
 }
 
 
-int SparsedSphereScene::Build(SceneParams &&params)
+void SparsedSpheresScene::Build(SceneParams &&params)
 {
     m_params = params;
     m_camera = InitCamera();
     m_objets = InitObjects();
     m_renderer = InitRenderer();
-    return 0;
 }
 
-std::shared_ptr<RGBColor[]> SparsedSphereScene::Render()
+
+shared_ptr<RGBColor[]> SparsedSpheresScene::Render()
 {
     m_renderer->Render();
     return m_renderer->GetBuffer();

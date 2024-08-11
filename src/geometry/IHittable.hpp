@@ -22,6 +22,9 @@ struct HitRecord {
     std::shared_ptr<IHittable> object;
     std::shared_ptr<IMaterial> material;
 
+    double u = 0.0;
+    double v = 0.0;
+
 
     void SetFaceNormal(const Ray& ray, const Vec3& outwardNormal);
 };

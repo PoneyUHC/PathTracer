@@ -23,6 +23,6 @@ bool Lambertian::Scatter(
     }
 
     scattered_ray = Ray(rec.hit_point, scatter_direction);
-    attenuation = m_albedo;
+    attenuation = m_albedo->GetColor(rec.u, rec.v, rec.hit_point);
     return true;
 }
