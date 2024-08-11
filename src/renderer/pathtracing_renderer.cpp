@@ -6,7 +6,7 @@
 #include "renderer/camera.hpp"
 #include "renderer/pathtracing_renderer.hpp"
 #include "geometry/hittable_list.hpp"
-#include "material/material.hpp"
+#include "material/IMaterial.hpp"
 #include "utils.hpp"
 
 #include <omp.h>
@@ -18,7 +18,9 @@ using namespace std;
 
 
 PathTracingRenderer::PathTracingRenderer(
-    std::shared_ptr<Camera> camera, std::shared_ptr<HittableList> scene, PathTracingRendererParams&& params
+    std::shared_ptr<Camera> camera, 
+    std::shared_ptr<HittableList> scene, 
+    PathTracingRendererParams&& params
 )
     : m_camera{camera}, m_scene{scene}, m_params{params}
 {

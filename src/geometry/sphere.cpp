@@ -10,7 +10,7 @@
 using namespace std;
 
 
-Sphere::Sphere(const Point3& center, double radius, std::shared_ptr<Material> material) 
+Sphere::Sphere(const Point3& center, double radius, std::shared_ptr<IMaterial> material) 
     : m_center{center}, m_radius{radius}, m_material{material} 
 {
     Vec3 aabb_corner = Vec3(m_radius, m_radius, m_radius);
@@ -45,8 +45,8 @@ bool Sphere::Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord)
     }
 
     outRecord.t = root;
-    outRecord.hitPoint = ray.At(root);
-    Vec3 outwardNormal = (outRecord.hitPoint - m_center) / m_radius;
+    outRecord.hit_point = ray.At(root);
+    Vec3 outwardNormal = (outRecord.hit_point - m_center) / m_radius;
     outRecord.SetFaceNormal(ray, outwardNormal);
     outRecord.material = m_material;
 

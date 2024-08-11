@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include "material/material.hpp"
+#include "material/IMaterial.hpp"
  
 
-class Dielectric : public Material {
+class Dielectric : public IMaterial {
 
 private:
 

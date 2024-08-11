@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include "material/material.hpp"
+#include "material/IMaterial.hpp"
 
 
-class Lambertian : public Material {
+class Lambertian : public IMaterial {
 
 private:
 

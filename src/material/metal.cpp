@@ -14,7 +14,7 @@ bool Metal::Scatter(
 {
     Vec3 reflected = incoming_ray.Direction().Reflect(rec.normal);
     reflected = reflected.Normalized() + (m_fuzziness * Vec3::RandomUnitVector());
-    scattered_ray = Ray(rec.hitPoint, reflected);
+    scattered_ray = Ray(rec.hit_point, reflected);
     attenuation = m_albedo;
     return rec.normal.Dot(reflected) > 0;
 }

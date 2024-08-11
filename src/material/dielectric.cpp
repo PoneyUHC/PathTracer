@@ -40,6 +40,6 @@ bool Dielectric::Scatter(
         direction = unit_direction.Reflect(rec.normal);
     }
 
-    scattered_ray = Ray(rec.hitPoint, direction);
+    scattered_ray = Ray(rec.hit_point, direction);
     return true;
 }

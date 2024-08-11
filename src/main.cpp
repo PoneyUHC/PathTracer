@@ -48,7 +48,7 @@ shared_ptr<HittableList> InitScene(bool enable_bvh)
             Point3 center(a + 0.9*random_double(), 0.2, b + 0.9*random_double());
 
             if ((center - Point3(4, 0.2, 0)).Magnitude() > 0.9) {
-                shared_ptr<Material> sphere_material;
+                shared_ptr<IMaterial> sphere_material;
 
                 if (choose_mat < 0.8) {
                     // diffuse

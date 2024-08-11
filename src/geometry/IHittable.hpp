@@ -8,19 +8,19 @@
 
 
 class IHittable;
-class Material;
+class IMaterial;
 class Interval;
 class Ray;
 
 
 struct HitRecord {
 
-    Point3 hitPoint;
+    Point3 hit_point;
     Vec3 normal;
     double t = 0.0;
     bool front_face = true;
     std::shared_ptr<IHittable> object;
-    std::shared_ptr<Material> material;
+    std::shared_ptr<IMaterial> material;
 
 
     void SetFaceNormal(const Ray& ray, const Vec3& outwardNormal);
