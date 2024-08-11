@@ -1,7 +1,7 @@
 
 #include "geometry/IHittable.hpp"
 
-#include "ray.hpp"
+#include "math/ray.hpp"
 
 
 void HitRecord::SetFaceNormal(const Ray& ray, const Vec3& outwardNormal)

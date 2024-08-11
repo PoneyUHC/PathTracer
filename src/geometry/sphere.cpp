@@ -1,13 +1,21 @@
 
 #include "sphere.hpp"
 
-#include "ray.hpp"
-#include "interval.hpp"
+#include "math/ray.hpp"
+#include "math/interval.hpp"
 
 #include <cmath>
 
 
 using namespace std;
+
+
+Sphere::Sphere(const Point3& center, double radius, std::shared_ptr<Material> material) 
+    : m_center{center}, m_radius{radius}, m_material{material} 
+{
+    Vec3 aabb_corner = Vec3(m_radius, m_radius, m_radius);
+    m_aabb = AABB(m_center - aabb_corner, m_center + aabb_corner);
+}
 
 
 bool Sphere::Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const
@@ -28,12 +36,10 @@ bool Sphere::Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord)
     
     const double sqrtd = sqrt(discriminant);
     double root = (h - sqrtd) / a;
-    const double min = interval.Min();
-    const double max = interval.Max();
 
-    if ( root <= min || root >= max ){
+    if ( root <= interval.Min() || root >= interval.Max() ){
         root = (h + sqrtd) / a;
-        if( root <= min || root >= max ){
+        if( root <= interval.Min() || root >= interval.Max() ){
             return false;
         }
     }

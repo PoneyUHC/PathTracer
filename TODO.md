@@ -1,8 +1,5 @@
 
-- Section 11
-- improve compilation time
-  - move as much code as possible in .cpp files
-  - create blobs
-- accelerate with GPU compute shaders
-  - use raytracing extensions if possible
+- Book 2 section 4 : texture mapping
 - make buildchain crossplatform with CMake
+- add more commong image type exporter (PNG)
+- test to replace RNG for grid sampling in antialiasing

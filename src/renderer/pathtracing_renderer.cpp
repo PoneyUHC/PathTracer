@@ -1,13 +1,13 @@
 
+#include "math/vec.hpp"
+#include "math/ray.hpp"
+#include "math/interval.hpp"
+#include "math/math_utils.hpp"
+#include "renderer/camera.hpp"
 #include "renderer/pathtracing_renderer.hpp"
-#include "utils.hpp"
+#include "geometry/hittable_list.hpp"
 #include "material/material.hpp"
-#include "vec.hpp"
-#include "ray.hpp"
-#include "camera.hpp"
-#include "geometry/scene.hpp"
-#include "interval.hpp"
-
+#include "utils.hpp"
 
 #include <omp.h>
 #include <iostream>
@@ -18,7 +18,7 @@ using namespace std;
 
 
 PathTracingRenderer::PathTracingRenderer(
-    std::shared_ptr<Camera> camera, std::shared_ptr<Scene> scene, PathTracingRendererParams&& params
+    std::shared_ptr<Camera> camera, std::shared_ptr<HittableList> scene, PathTracingRendererParams&& params
 )
     : m_camera{camera}, m_scene{scene}, m_params{params}
 {
@@ -54,7 +54,10 @@ void PathTracingRenderer::Render() {
     for (int j = 0; j < height; j++) {
 
         #ifdef _OPENMP
-            clog << "\rLines remaining: " << (height - progress) << ' ' << flush;
+            #pragma omp critical
+            {
+                clog << "\rLines remaining: " << (height - progress) << ' ' << flush;
+            }
         #else
             clog << "\rLines remaining: " << (height - j) << ' ' << flush;
         #endif
@@ -91,7 +94,8 @@ RGBColor PathTracingRenderer::GetRayColor(const Ray& ray, size_t depth)
     }
 
     HitRecord hitRecord;
-    if( m_scene->Hit(ray, Interval(0.001, INFINITY), hitRecord) ){
+    Interval interval = Interval(0.001, INFINITY);
+    if( m_scene->Hit(ray, interval, hitRecord) ){
         Ray scattered_ray;
         RGBColor attenuation(0, 0, 0);
         if (hitRecord.material->Scatter(ray, hitRecord, attenuation, scattered_ray)){
@@ -101,6 +105,6 @@ RGBColor PathTracingRenderer::GetRayColor(const Ray& ray, size_t depth)
     }
 
     Vec3 unitDirection = ray.Direction().Normalized();
-    double a = 0.5 * (unitDirection.Y() + 1.0);
+    double a = 0.5 * (unitDirection[1] + 1.0);
     return lerp(RGBColor(1.0, 1.0, 1.0), RGBColor(0.5, 0.7, 1.0), a);
 }

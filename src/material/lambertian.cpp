@@ -1,8 +1,8 @@
 
 #include "lambertian.hpp"
 
-#include "vec.hpp"
-#include "ray.hpp"
+#include "math/vec.hpp"
+#include "math/ray.hpp"
 #include "geometry/IHittable.hpp"
 
 

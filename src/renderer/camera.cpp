@@ -1,7 +1,7 @@
 
-#include "camera.hpp"
+#include "renderer/camera.hpp"
 
-#include "ray.hpp"
+#include "math/ray.hpp"
 
 
 Camera::Camera(CameraParams&& params) 
@@ -56,8 +56,8 @@ Ray Camera::SampleRayForPixel(int i, int j) const
     Vec3 offset = sample_in_unit_square();
     
     Vec3 sample_position = GetPixelPosition(i, j)
-        + offset.X() * m_pixel_delta_u
-        + offset.Y() * m_pixel_delta_v;
+        + offset[0] * m_pixel_delta_u
+        + offset[1] * m_pixel_delta_v;
 
     Point3 ray_origin = (m_defocus_angle <= 0) ? m_camera_center : DefocusDiskSample();
     return Ray(ray_origin, sample_position - ray_origin);;
@@ -68,5 +68,5 @@ Ray Camera::SampleRayForPixel(int i, int j) const
 Point3 Camera::DefocusDiskSample() const
 {
     Point3 p = Vec3::RandomUnitVector();
-    return m_camera_center + (p.X() * m_defocus_disk_u) + (p.Y() * m_defocus_disk_v);
+    return m_camera_center + (p[0] * m_defocus_disk_u) + (p[1] * m_defocus_disk_v);
 }
