@@ -8,7 +8,7 @@
 #include "material/lambertian.hpp"
 #include "material/metal.hpp"
 #include "material/dielectric.hpp"
-#include "export/ppm_exporter.hpp"
+#include "export/png_exporter.hpp"
 
 #include <iostream>
 #include <memory>
@@ -134,8 +134,7 @@ int main(int argc, char *argv[]){
     cout << "Starting rendering" << endl;
     renderer.Render();
 
-    PpmExporter ppmExporter("output/render.ppm");
-    ppmExporter.Export(camera->ImageWidth(), camera->ImageHeight(), renderer.GetBuffer());
+    PngExporter png_exporter("output/render.png");
+    png_exporter.Export(camera->ImageWidth(), camera->ImageHeight(), renderer.GetBuffer());
 
-    return 0;
 }
