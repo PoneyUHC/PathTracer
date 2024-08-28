@@ -6,7 +6,8 @@ if [ "$result" -ne "0" ]; then
     exit
 fi
 
-OMP_NUM_THREAD=12 ./build/executable/render.exe $1
+source ./config.bash
+./build/executable/render.exe $1
 result=$?
 
 if [ "$result" -eq "0" ]; then
