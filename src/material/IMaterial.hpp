@@ -8,11 +8,11 @@ class Ray;
 class HitRecord;
 
 
-class Material {
+class IMaterial {
 
 public:
 
-    virtual ~Material() {}
+    virtual ~IMaterial() {}
     virtual bool Scatter(
         const Ray& incoming_ray, 
         const HitRecord& rec, 

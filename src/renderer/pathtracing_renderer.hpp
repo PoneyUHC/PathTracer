@@ -28,7 +28,11 @@ private:
 
 public:
 
-    PathTracingRenderer(std::shared_ptr<Camera> camera, std::shared_ptr<HittableList> scene, PathTracingRendererParams&& params);
+    PathTracingRenderer(
+        std::shared_ptr<Camera> camera, 
+        std::shared_ptr<HittableList> scene, 
+        PathTracingRendererParams&& params
+    );
 
     void Render() override;
     RGBColor GetRayColor(const Ray& ray, size_t depth);
