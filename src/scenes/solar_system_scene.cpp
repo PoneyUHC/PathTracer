@@ -2,7 +2,6 @@
 #include "solar_system_scene.hpp"
 
 #include "geometry/hittable_list.hpp"
-#include "geometry/hittable_list.hpp"
 #include "geometry/sphere.hpp"
 #include "material/lambertian.hpp"
 #include "assets/image_asset.hpp"
