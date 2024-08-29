@@ -25,4 +25,5 @@ public:
 
     AABB GetAABB() const override { return m_aabb; }
     
+    static void get_sphere_uv(const Point3& point, double& u, double& v);
 };
