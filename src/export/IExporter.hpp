@@ -24,21 +24,5 @@ public:
 
         return 0;
     }
-
-
-    static void rgb_normalized_to_8bits(const RGBColor& color, uint8_t *dest){
-        double r = color[0];
-        double g = color[1];
-        double b = color[2];
-
-        r = linear_to_gamma(r);
-        g = linear_to_gamma(g);
-        b = linear_to_gamma(b);
-        
-        static const Interval intensity(0.000, 0.999);
-        dest[0] = uint8_t(256 * intensity.Clamp(r));
-        dest[1] = uint8_t(256 * intensity.Clamp(g));
-        dest[2] = uint8_t(256 * intensity.Clamp(b));
-    }
     
 };

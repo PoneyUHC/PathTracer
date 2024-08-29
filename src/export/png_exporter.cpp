@@ -96,10 +96,13 @@ void PngExporter::ImageToScanline(uint8_t filtering, uint8_t *dest) const
 {
     uint8_t *data_ptr = dest;
     for(uint32_t j=0; j<m_height; ++j){
-        *data_ptr = filtering;
-        ++data_ptr;
+        *data_ptr++ = filtering;
         for(uint32_t i=0; i<m_width; ++i){
-            IExporter::rgb_normalized_to_8bits(m_data_buffer[j*m_width + i], data_ptr);
+            RGBColor& color = m_data_buffer[j*m_width + i];
+            color[0] = linear_to_gamma(color[0]);
+            color[1] = linear_to_gamma(color[1]);
+            color[2] = linear_to_gamma(color[2]);
+            rgb_normalized_to_8bits(color, data_ptr);
             data_ptr += 3;
         }
     }
