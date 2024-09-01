@@ -13,6 +13,7 @@ class IMaterial {
 public:
 
     virtual ~IMaterial() {}
+
     virtual bool Scatter(
         const Ray& incoming_ray, 
         const HitRecord& rec, 
@@ -21,6 +22,11 @@ public:
     ) const
     {
         return false;
+    }
+
+    virtual RGBColor Emitted(double u, double v, const Point3& point) const
+    {
+        return BLACK;
     }
 
 

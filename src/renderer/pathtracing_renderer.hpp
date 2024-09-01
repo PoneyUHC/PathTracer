@@ -12,6 +12,7 @@ class Ray;
 struct PathTracingRendererParams {
     int aa_sample_per_pixel;
     int max_depth;
+    RGBColor background_color;
 };
 
 

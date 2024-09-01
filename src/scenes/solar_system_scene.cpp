@@ -75,6 +75,7 @@ shared_ptr<PathTracingRenderer> SolarSystemScene::InitRenderer()
     PathTracingRendererParams params;
     params.aa_sample_per_pixel = 300;
     params.max_depth = 50;
+    params.background_color = RGBColor(0.70, 0.80, 1.00);
 
     return make_shared<PathTracingRenderer>(m_camera, m_objets, move(params));
 }

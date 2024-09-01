@@ -58,6 +58,7 @@ shared_ptr<PathTracingRenderer> QuadsScene::InitRenderer()
     PathTracingRendererParams params;
     params.aa_sample_per_pixel = 100;
     params.max_depth = 20;
+    params.background_color = RGBColor(0.70, 0.80, 1.00);
 
     return make_shared<PathTracingRenderer>(m_camera, m_objets, move(params));
 }

@@ -4,6 +4,7 @@
 #include "scenes/checkered_spheres_scene.hpp"
 #include "scenes/solar_system_scene.hpp"
 #include "scenes/quads_scene.hpp"
+#include "scenes/cornell_box_scene.hpp"
 #include "renderer/camera.hpp"
 #include "export/png_exporter.hpp"
 
@@ -29,7 +30,7 @@ int main(int argc, char *argv[]){
 
     unique_ptr<IScene> scene;
 
-    switch(4){
+    switch(5){
         case 1:
             scene = make_unique<SparsedSpheresScene>();
             break;
@@ -41,6 +42,9 @@ int main(int argc, char *argv[]){
             break;
         case 4:
             scene = make_unique<QuadsScene>();
+            break;
+        case 5:
+            scene = make_unique<CornellBoxScene>();
             break;
         default:
             cout << "Problem in scene selection" << endl;

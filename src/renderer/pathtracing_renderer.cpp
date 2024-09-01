@@ -91,22 +91,25 @@ void PathTracingRenderer::Render() {
 
 RGBColor PathTracingRenderer::GetRayColor(const Ray& ray, size_t depth)
 {   
-    if(depth == 0){
-        return RGBColor(0, 0, 0);
+    if(depth <= 0){
+        return BLACK;
     }
 
-    HitRecord hitRecord;
-    Interval interval = Interval(0.001, INFINITY);
-    if( m_scene->Hit(ray, interval, hitRecord) ){
-        Ray scattered_ray;
-        RGBColor attenuation(0, 0, 0);
-        if (hitRecord.material->Scatter(ray, hitRecord, attenuation, scattered_ray)){
-            return attenuation * GetRayColor(scattered_ray, depth-1);
-        }
-        return RGBColor(0, 0, 0);
+    HitRecord hit_record;
+    static Interval interval = Interval(0.001, INFINITY);
+    if(!m_scene->Hit(ray, interval, hit_record)){
+        return m_params.background_color;
     }
 
-    Vec3 unitDirection = ray.Direction().Normalized();
-    double a = 0.5 * (unitDirection[1] + 1.0);
-    return lerp(RGBColor(1.0, 1.0, 1.0), RGBColor(0.5, 0.7, 1.0), a);
+    Ray scattered_ray;
+    RGBColor attenuation = BLACK;
+    RGBColor color_from_emission = hit_record.material->Emitted(hit_record.u, hit_record.v, hit_record.hit_point);
+
+    if (!hit_record.material->Scatter(ray, hit_record, attenuation, scattered_ray)){
+        return color_from_emission;
+    }
+    
+    RGBColor color_from_scatter = attenuation * GetRayColor(scattered_ray, depth-1);
+
+    return color_from_emission + color_from_scatter;
 }

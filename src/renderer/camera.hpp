@@ -53,7 +53,8 @@ private:
     double m_defocus_angle;
     double m_focus_dist;
 
-    Vec3 m_defocus_disk_u;       // Defocus disk horizontal radius
+    // Defocus disk horizontal radius
+    Vec3 m_defocus_disk_u;       
     Vec3 m_defocus_disk_v;
 
 
