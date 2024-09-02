@@ -19,7 +19,7 @@ using namespace std;
 int main(int argc, char *argv[]){
 
     if (argc != 2){
-        Logger::LogError(format("Usage : {} width", argv[1]));
+        Logger::LogError(format("Usage : {} width", argv[0]));
         return 1;
     }
 

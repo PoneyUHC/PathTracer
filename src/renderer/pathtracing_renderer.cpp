@@ -34,6 +34,8 @@ void PathTracingRenderer::Render() {
     const int height = m_camera->ImageHeight();
     const int width = m_camera->ImageWidth();
 
+    int progress = 0;
+    const int bar_width = 70;
     
     #ifdef _OPENMP
         // assuming 6-8 physical cores on machine
@@ -50,21 +52,16 @@ void PathTracingRenderer::Render() {
         omp_set_num_threads(num_threads);
         Logger::LogInfo(format("Using {} CPU threads to render", num_threads));
 
-        int progress = 0;
-        #pragma omp parallel for num_threads(num_threads) shared(progress)
+    #pragma omp parallel for num_threads(num_threads) shared(progress)
     #endif
 
     for (int j = 0; j < height; j++) {
 
-        #ifdef _OPENMP
-            #pragma omp critical
-            {
-                Logger::LogInfo(format("Lines remaining: {} ", height - progress));
-                ++progress;
-            }
-        #else
-            Logger::LogInfo(format("Lines remaining: {} ", height - j));
-        #endif
+        #pragma omp critical
+        {
+            log_progress_bar(progress, height, bar_width, false);
+            ++progress;
+        }
 
         for (int i = 0; i < width; i++) {
             
@@ -80,6 +77,8 @@ void PathTracingRenderer::Render() {
         }
     }
     
+    // for satisfaction of full bar
+    log_progress_bar(progress, height, bar_width, true);
     Logger::LogInfo("Done");
 }
 

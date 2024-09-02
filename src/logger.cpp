@@ -26,7 +26,8 @@ void Logger::Log(const std::string &log, const LogLevel& level)
     ostringstream string_builder;
     string_builder << GetCurrentTimeFormatted() << " ";
     string_builder << s_colored_name_lookup.at(level) << " ";
-    string_builder << log << endl;
+    string_builder << log;
+    string_builder << (s_overwrite ? '\r' : '\n');
 
     const string& formatted_log = string_builder.str();
     for(ostream* stream : s_outputs){

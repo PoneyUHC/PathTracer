@@ -5,6 +5,8 @@
 #include "logger.hpp"
 
 #include <algorithm>
+#include <sstream>
+#include <format>
 
 
 using namespace std;
@@ -43,4 +45,29 @@ void rgb_normalized_to_8bits(const RGBColor& color, uint8_t *dest){
 
 uint8_t rgb_normalized_to_8bits(float value){
     return static_cast<uint8_t>(255.999 * std::clamp(value, 0.f, 1.f));
+}
+
+
+void log_progress_bar(int progress, int total, int bar_width, bool is_last)
+{
+    Logger::SetOverwrite(true);
+
+    stringstream string_builder;
+
+    float progress_ratio = float(progress)/total;
+    int pos = bar_width * progress_ratio;
+
+    string_builder << format("[{}/{}] [", progress, total);
+    for (int i = 0; i < bar_width; ++i) {
+        if (i < pos) string_builder << "=";
+        else if (i == pos) string_builder << "-";
+        else string_builder << "_";
+    }
+    string_builder << format("] {:.2f} %", progress_ratio*100);
+
+    if(is_last) {
+        Logger::SetOverwrite(false);
+    }
+
+    Logger::LogInfo(string_builder.str());
 }

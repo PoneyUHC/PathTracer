@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <iostream>
 #include <vector>
 #include <unordered_map>
 
@@ -20,6 +21,7 @@ private:
 
     static inline std::vector<std::ostream*> s_outputs = { &std::cout };
     static inline LogLevel s_level = LogLevel::DEBUG;
+    static inline bool s_overwrite = false;
     
     static inline const std::unordered_map<LogLevel, std::string> s_colored_name_lookup
     {
@@ -38,6 +40,7 @@ public:
 
     static void SetLogLevel(const LogLevel& level) { s_level = level; }
     static void AddOutput(std::ostream& stream) { s_outputs.push_back(&stream); }
+    static void SetOverwrite(bool value) { s_overwrite = value; }
     
     static void LogDebug(const std::string& log)   { Log(log, LogLevel::DEBUG); }
     static void LogInfo(const std::string& log)    { Log(log, LogLevel::INFO); }
