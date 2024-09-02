@@ -3,9 +3,9 @@
 #include "renderer/camera.hpp"
 #include "math/interval.hpp"
 #include "utils.hpp"
+#include "logger.hpp"
 
 #include <filesystem>
-#include <iostream>
 #include <fstream>
 
 
@@ -23,7 +23,7 @@ int PpmExporter::Export(int width, int height, std::shared_ptr<RGBColor[]> buffe
 
     ofstream file(m_filepath);
     if ( !file.is_open()) {
-        cerr << __FUNCTION__ << " : failed to open " << m_filepath << endl;
+        Logger::LogError(string(__FUNCTION__) + " : failed to open " + m_filepath);
         return 1;
     }
 

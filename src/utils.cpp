@@ -2,8 +2,8 @@
 #include "utils.hpp"
 
 #include "math/interval.hpp"
+#include "logger.hpp"
 
-#include <iostream>
 #include <algorithm>
 
 
@@ -17,7 +17,7 @@ string get_env_var(const string& key)
 {
     char* val = getenv(key.c_str());
     if(val == NULL){
-        clog << "Could not retrieve environment variable with key '" << key << "'" << endl; 
+        Logger::LogError("Could not retrieve environment variable with key '" + key + "'"); 
     }
     return val == NULL ? string("") : string(val);
 }

@@ -2,11 +2,11 @@
 #include "png_exporter.hpp"
 
 #include "utils.hpp"
+#include "logger.hpp"
 
 #include <cstring>
 #include <fstream>
 #include <filesystem>
-#include <iostream>
 
 
 using namespace std;
@@ -220,7 +220,7 @@ int PngExporter::Export(int width, int height, shared_ptr<RGBColor[]> buffer)
 
     m_output_fs = ofstream(m_filepath, std::ios::out | std::ios::binary);
     if ( !m_output_fs.is_open()) {
-        cerr << __FUNCTION__ << " : failed to open " << m_filepath << endl;
+        Logger::LogError(string(__FUNCTION__) + " : failed to open " + m_filepath);
         return 1;
     }
     

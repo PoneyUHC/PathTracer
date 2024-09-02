@@ -2,6 +2,7 @@
 #include "image_asset.hpp"
 
 #include "utils.hpp"
+#include "logger.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "third_party/stb_image.h"
@@ -17,11 +18,11 @@ namespace fs = std::filesystem;
 
 int ImageAsset::Load()
 {
-    clog << "Loading " << m_filepath << " ..." << endl;
-    fs::path path(m_filepath);
+    Logger::LogInfo("Loading " + m_filepath + " ...");
 
+    fs::path path(m_filepath);
     if(!fs::exists(m_filepath)){
-        cerr << "\t" << m_filepath << ": file not found" << endl;
+        Logger::LogError("\t" + m_filepath + ": file not found");
         return false;
     }
 
@@ -30,8 +31,8 @@ int ImageAsset::Load()
     float* fdata;
     fdata = stbi_loadf(path.c_str(), &m_width, &m_height, &n, m_bytes_per_pixel);
     if(fdata == NULL){
-        cerr << "\t" << m_filepath << ": error while loading file" << endl;
-        cerr << "\t" << stbi_failure_reason() << endl;
+        Logger::LogError("\t" + m_filepath + ": error while loading file");
+        Logger::LogError("\t" + string(stbi_failure_reason()));
         return false;
     }
 
@@ -45,7 +46,7 @@ int ImageAsset::Load()
         m_bdata[i] = rgb_normalized_to_8bits(m_fdata[i]);
     }
 
-    clog << "Loaded " << m_filepath << " successfully" << endl;
+    Logger::LogInfo("Loaded " + m_filepath + " successfully");
     return true;
 }
 

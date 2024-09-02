@@ -8,10 +8,11 @@
 #include "geometry/hittable_list.hpp"
 #include "material/IMaterial.hpp"
 #include "utils.hpp"
+#include "logger.hpp"
 
 #include <omp.h>
-#include <iostream>
 #include <string>
+#include <format>
 
 
 using namespace std;
@@ -43,11 +44,11 @@ void PathTracingRenderer::Render() {
         }
         catch (const std::exception& e){
             // keep default value
-            cout << "OMP_NUM_THREAD is undefined" << endl;
+            Logger::LogWarning("OMP_NUM_THREAD is undefined");
         }
 
         omp_set_num_threads(num_threads);
-        cout << "Using " << num_threads << " CPU threads to render" << endl;
+        Logger::LogInfo(format("Using {} CPU threads to render", num_threads));
 
         int progress = 0;
         #pragma omp parallel for num_threads(num_threads) shared(progress)
@@ -58,10 +59,11 @@ void PathTracingRenderer::Render() {
         #ifdef _OPENMP
             #pragma omp critical
             {
-                clog << "\rLines remaining: " << (height - progress) << ' ' << flush;
+                Logger::LogInfo(format("Lines remaining: {} ", height - progress));
+                ++progress;
             }
         #else
-            clog << "\rLines remaining: " << (height - j) << ' ' << flush;
+            Logger::LogInfo(format("Lines remaining: {} ", height - j));
         #endif
 
         for (int i = 0; i < width; i++) {
@@ -76,16 +78,9 @@ void PathTracingRenderer::Render() {
                 
             m_buffer[j * width + i] = accumulator;
         }
-
-        #ifdef _OPENMP
-            #pragma omp critical
-            {
-                ++progress;
-            }
-        #endif
     }
     
-    clog << "\rDone.                 \n";
+    Logger::LogInfo("Done");
 }
 
 

@@ -7,8 +7,9 @@
 #include "scenes/cornell_box_scene.hpp"
 #include "renderer/camera.hpp"
 #include "export/png_exporter.hpp"
+#include "logger.hpp"
 
-#include <iostream>
+#include <format>
 #include <typeinfo>
 
 
@@ -18,11 +19,11 @@ using namespace std;
 int main(int argc, char *argv[]){
 
     if (argc != 2){
-        cout << "Usage : " << argv[0] << " width" << endl;
+        Logger::LogError(format("Usage : {} width", argv[1]));
         return 1;
     }
 
-    cout << "Initializing scene" << endl;
+    Logger::LogInfo("Initializing scene");
     
     SceneParams scene_params;
     scene_params.render_width = atoi(argv[1]);
@@ -30,7 +31,7 @@ int main(int argc, char *argv[]){
 
     unique_ptr<IScene> scene;
 
-    switch(5){
+    switch(3){
         case 1:
             scene = make_unique<SparsedSpheresScene>();
             break;
@@ -47,14 +48,14 @@ int main(int argc, char *argv[]){
             scene = make_unique<CornellBoxScene>();
             break;
         default:
-            cout << "Problem in scene selection" << endl;
+            Logger::LogFatal("Problem in scene selection");
             return 1;
     }
     
-    cout << "Building scene " << typeid(*scene.get()).name() << endl;
+    Logger::LogInfo("Building scene " + string(typeid(*scene.get()).name()));
     scene->Build(std::move(scene_params));
 
-    cout << "Starting rendering" << endl;
+    Logger::LogInfo("Starting rendering");
     shared_ptr<RGBColor[]> color_buffer = scene->Render();
 
     PngExporter png_exporter("output/render.png");
