@@ -109,7 +109,7 @@ RGBColor PathTracingRenderer::GetRayColor(const Ray& ray, size_t depth)
     HitRecord hit_record;
     static Interval interval = Interval(0.001, INFINITY);
     if(!m_scene->Hit(ray, interval, hit_record)){
-        return m_params.background_color;
+        return m_camera->GetParams().background_color;
     }
 
     Ray scattered_ray;

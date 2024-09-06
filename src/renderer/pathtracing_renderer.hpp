@@ -12,7 +12,6 @@ class Ray;
 struct PathTracingRendererParams {
     int aa_sample_per_pixel;
     int max_depth;
-    RGBColor background_color;
 };
 
 
@@ -45,5 +44,7 @@ public:
 
     std::shared_ptr<RGBColor[]> GetBuffer() { return m_buffer; }
     PathTracingRendererParams GetParams() { return m_params; }
+
+    void SetParams(PathTracingRendererParams&& params) { m_params = params; } 
 
 };

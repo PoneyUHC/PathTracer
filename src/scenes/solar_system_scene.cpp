@@ -26,6 +26,7 @@ shared_ptr<Camera> SolarSystemScene::InitCamera()
     camera_params.vup = Vec3(0,1,0);
     camera_params.defocus_angle = 0.0;
     camera_params.focus_dist = 10.0;
+    camera_params.background_color = RGBColor(0.70, 0.80, 1.00);
 
     return make_shared<Camera>(std::move(camera_params));
 }
@@ -73,9 +74,7 @@ shared_ptr<HittableList> SolarSystemScene::InitObjects()
 shared_ptr<IRenderer> SolarSystemScene::InitRenderer()
 {
     PathTracingRendererParams params;
-    params.aa_sample_per_pixel = 300;
-    params.max_depth = 50;
-    params.background_color = RGBColor(0.70, 0.80, 1.00);
-
-    return make_shared<PathTracingRenderer>(m_camera, m_objets, move(params));
+    m_renderer = make_shared<PathTracingRenderer>(m_camera, m_objets, move(params));
+    m_renderer->Init();
+    return m_renderer;
 }

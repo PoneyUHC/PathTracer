@@ -58,8 +58,14 @@ int main(int argc, char *argv[]){
 
     Logger::LogInfo("Starting rendering");
 
+    int sample_per_pixel = 100;
+    int max_depth = 10; 
     auto renderer = dynamic_cast<PathTracingRenderer*>(scene->GetRenderer().get());
-    shared_ptr<RGBColor[]> color_buffer = scene->Render(renderer->GetParams().aa_sample_per_pixel);
+    PathTracingRendererParams params;
+    params.aa_sample_per_pixel = sample_per_pixel;
+    params.max_depth = max_depth;
+    renderer->SetParams(std::move(params));
+    shared_ptr<RGBColor[]> color_buffer = scene->Render(params.aa_sample_per_pixel);
 
     PngExporter png_exporter("output/render.png");
     uint32_t out_width = scene->GetCamera()->ImageWidth();
