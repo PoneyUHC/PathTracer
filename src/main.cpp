@@ -19,20 +19,37 @@ using namespace std;
 
 int main(int argc, char *argv[]){
 
-    if (argc != 2){
-        Logger::LogError(format("Usage : {} width", argv[0]));
+    if (argc != 5){
+        Logger::LogError(format("Usage : {} width aa_sample_per_pixel ray_max_depth scene_id", argv[0]));
+        Logger::LogInfo("Advised values are width=1280 aa_sample_per_pixel=100 ray_max_depth=10 scene_id=5");
         return 1;
     }
 
     Logger::LogInfo("Initializing scene");
-    
+
     SceneParams scene_params;
-    scene_params.render_width = atoi(argv[1]);
-    scene_params.enable_bvh = true;
+    int aa_sample_per_pixel;
+    int max_depth;
+    int scene_id;
+    
+    try{
+        scene_params.render_width = stoi(argv[1]);
+        scene_params.enable_bvh = true;
+
+        aa_sample_per_pixel = stoi(argv[2]);
+        max_depth = stoi(argv[3]);
+        scene_id = stoi(argv[4]);
+    }
+    catch(std::exception const& e) {
+        Logger::LogFatal("Could not parse command-line arguments");
+        Logger::LogFatal(e.what());
+        return 1;
+    }
+    
 
     unique_ptr<IScene> scene;
 
-    switch(5){
+    switch(scene_id){
         case 1:
             scene = make_unique<SparsedSpheresScene>();
             break;
@@ -56,20 +73,22 @@ int main(int argc, char *argv[]){
     Logger::LogInfo("Building scene " + string(typeid(*scene.get()).name()));
     scene->Build(std::move(scene_params));
 
-    Logger::LogInfo("Starting rendering");
-
-    int sample_per_pixel = 100;
-    int max_depth = 10; 
+    Logger::LogInfo(format("Starting rendering scene {}", scene_id));
+    Logger::LogInfo(format("Using {} samples per pixel, {} max rebounds", aa_sample_per_pixel, max_depth));
+    uint32_t out_width = scene->GetCamera()->ImageWidth();
+    uint32_t out_height = scene->GetCamera()->ImageHeight();
+    Logger::LogInfo(format("Outputing image of size {}x{} pixels", out_width, out_height));
+     
     auto renderer = dynamic_cast<PathTracingRenderer*>(scene->GetRenderer().get());
     PathTracingRendererParams params;
-    params.aa_sample_per_pixel = sample_per_pixel;
+    params.aa_sample_per_pixel = aa_sample_per_pixel;
     params.max_depth = max_depth;
     renderer->SetParams(std::move(params));
+
     shared_ptr<RGBColor[]> color_buffer = scene->Render(params.aa_sample_per_pixel);
 
     PngExporter png_exporter("output/render.png");
-    uint32_t out_width = scene->GetCamera()->ImageWidth();
-    uint32_t out_height = scene->GetCamera()->ImageHeight();
     png_exporter.Export(out_width, out_height, color_buffer);
 
+    return 0;
 }

@@ -104,6 +104,8 @@ shared_ptr<HittableList> SparsedSpheresScene::InitObjects()
 shared_ptr<IRenderer> SparsedSpheresScene::InitRenderer()
 {
     PathTracingRendererParams params;
+    params.aa_sample_per_pixel = 100;
+    params.max_depth = 10;
     m_renderer = make_shared<PathTracingRenderer>(m_camera, m_objets, move(params));
     m_renderer->Init();
     return m_renderer;
