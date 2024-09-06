@@ -6,6 +6,7 @@
 #include "scenes/quads_scene.hpp"
 #include "scenes/cornell_box_scene.hpp"
 #include "renderer/camera.hpp"
+#include "renderer/pathtracing_renderer.hpp"
 #include "export/png_exporter.hpp"
 #include "logger.hpp"
 
@@ -31,7 +32,7 @@ int main(int argc, char *argv[]){
 
     unique_ptr<IScene> scene;
 
-    switch(3){
+    switch(5){
         case 1:
             scene = make_unique<SparsedSpheresScene>();
             break;
@@ -56,7 +57,9 @@ int main(int argc, char *argv[]){
     scene->Build(std::move(scene_params));
 
     Logger::LogInfo("Starting rendering");
-    shared_ptr<RGBColor[]> color_buffer = scene->Render();
+
+    auto renderer = dynamic_cast<PathTracingRenderer*>(scene->GetRenderer().get());
+    shared_ptr<RGBColor[]> color_buffer = scene->Render(renderer->GetParams().aa_sample_per_pixel);
 
     PngExporter png_exporter("output/render.png");
     uint32_t out_width = scene->GetCamera()->ImageWidth();

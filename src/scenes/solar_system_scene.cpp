@@ -70,7 +70,7 @@ shared_ptr<HittableList> SolarSystemScene::InitObjects()
 }
 
 
-shared_ptr<PathTracingRenderer> SolarSystemScene::InitRenderer()
+shared_ptr<IRenderer> SolarSystemScene::InitRenderer()
 {
     PathTracingRendererParams params;
     params.aa_sample_per_pixel = 300;
@@ -78,20 +78,4 @@ shared_ptr<PathTracingRenderer> SolarSystemScene::InitRenderer()
     params.background_color = RGBColor(0.70, 0.80, 1.00);
 
     return make_shared<PathTracingRenderer>(m_camera, m_objets, move(params));
-}
-
-
-void SolarSystemScene::Build(SceneParams &&params)
-{
-    m_params = params;
-    m_camera = InitCamera();
-    m_objets = InitObjects();
-    m_renderer = InitRenderer();
-}
-
-
-shared_ptr<RGBColor[]> SolarSystemScene::Render()
-{
-    m_renderer->Render();
-    return m_renderer->GetBuffer();
 }

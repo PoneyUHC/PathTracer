@@ -25,7 +25,11 @@ private:
     std::shared_ptr<RGBColor[]> m_buffer;
 
     PathTracingRendererParams m_params;
+    int m_render_step = 0;
 
+    #ifdef _OPENMP
+        void SetupOpenMP();
+    #endif
 
 public:
 
@@ -35,9 +39,11 @@ public:
         PathTracingRendererParams&& params
     );
 
-    void Render() override;
+    void Init() override;
+    void Render(int n_steps) override;
     RGBColor GetRayColor(const Ray& ray, size_t depth);
 
     std::shared_ptr<RGBColor[]> GetBuffer() { return m_buffer; }
+    PathTracingRendererParams GetParams() { return m_params; }
 
 };

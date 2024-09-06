@@ -53,7 +53,7 @@ shared_ptr<HittableList> QuadsScene::InitObjects()
 }
 
 
-shared_ptr<PathTracingRenderer> QuadsScene::InitRenderer()
+shared_ptr<IRenderer> QuadsScene::InitRenderer()
 {
     PathTracingRendererParams params;
     params.aa_sample_per_pixel = 100;
@@ -63,18 +63,3 @@ shared_ptr<PathTracingRenderer> QuadsScene::InitRenderer()
     return make_shared<PathTracingRenderer>(m_camera, m_objets, move(params));
 }
 
-
-void QuadsScene::Build(SceneParams &&params)
-{
-    m_params = params;
-    m_camera = InitCamera();
-    m_objets = InitObjects();
-    m_renderer = InitRenderer();
-}
-
-
-shared_ptr<RGBColor[]> QuadsScene::Render()
-{
-    m_renderer->Render();
-    return m_renderer->GetBuffer();
-}

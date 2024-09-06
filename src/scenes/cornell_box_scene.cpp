@@ -4,6 +4,7 @@
 #include "geometry/hittable_list.hpp"
 #include "geometry/hittable_list.hpp"
 #include "geometry/quad.hpp"
+#include "geometry/bvh_node.hpp"
 #include "material/lambertian.hpp"
 #include "material/diffuse_light.hpp"
 #include "texture/checker_texture.hpp"
@@ -50,32 +51,26 @@ shared_ptr<HittableList> CornellBoxScene::InitObjects()
         make_shared<Quad>(Point3(0,0,555), Vec3(555,0,0), Vec3(0,555,0), white)
     });
 
+    if(m_params.enable_bvh) {
+        vector<shared_ptr<IHittable>> objects = hittable_list->CopyObjects();
+        auto root = make_shared<BVHNode>(objects, 0, objects.size());
+
+        hittable_list = make_shared<HittableList>();
+        hittable_list->AddObject(root);
+    }
+
     return hittable_list;
 }
 
 
-shared_ptr<PathTracingRenderer> CornellBoxScene::InitRenderer()
+shared_ptr<IRenderer> CornellBoxScene::InitRenderer()
 {
     PathTracingRendererParams params;
-    params.aa_sample_per_pixel = 1600;
-    params.max_depth = 20;
+    params.aa_sample_per_pixel = 600;
+    params.max_depth = 10;
     params.background_color = BLACK;
 
-    return make_shared<PathTracingRenderer>(m_camera, m_objets, move(params));
-}
-
-
-void CornellBoxScene::Build(SceneParams &&params)
-{
-    m_params = params;
-    m_camera = InitCamera();
-    m_objets = InitObjects();
-    m_renderer = InitRenderer();
-}
-
-
-shared_ptr<RGBColor[]> CornellBoxScene::Render()
-{
-    m_renderer->Render();
-    return m_renderer->GetBuffer();
+    m_renderer = make_shared<PathTracingRenderer>(m_camera, m_objets, move(params));
+    m_renderer->Init();
+    return m_renderer;
 }

@@ -31,6 +31,6 @@ void Logger::Log(const std::string &log, const LogLevel& level)
 
     const string& formatted_log = string_builder.str();
     for(ostream* stream : s_outputs){
-        *stream << formatted_log;
+        *stream << formatted_log << flush;
     }
 }
