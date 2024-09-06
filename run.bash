@@ -7,7 +7,7 @@ if [ "$result" -ne "0" ]; then
 fi
 
 source ./config.bash
-./build/executable/render.exe $1
+./build/executable/render.exe $1 $2 $3 $4
 result=$?
 
 if [ "$result" -eq "0" ]; then

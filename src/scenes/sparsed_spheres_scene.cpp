@@ -25,6 +25,7 @@ shared_ptr<Camera> SparsedSpheresScene::InitCamera()
     camera_params.vup = Vec3(0,1,0);
     camera_params.defocus_angle = 0.6;
     camera_params.focus_dist = 10.0;
+    camera_params.background_color = RGBColor(0.70, 0.80, 1.00);
 
     return make_shared<Camera>(std::move(camera_params));
 }
@@ -100,27 +101,12 @@ shared_ptr<HittableList> SparsedSpheresScene::InitObjects()
 }
 
 
-shared_ptr<PathTracingRenderer> SparsedSpheresScene::InitRenderer()
+shared_ptr<IRenderer> SparsedSpheresScene::InitRenderer()
 {
     PathTracingRendererParams params;
     params.aa_sample_per_pixel = 100;
-    params.max_depth = 20;
-
-    return make_shared<PathTracingRenderer>(m_camera, m_objets, move(params));
-}
-
-
-void SparsedSpheresScene::Build(SceneParams &&params)
-{
-    m_params = params;
-    m_camera = InitCamera();
-    m_objets = InitObjects();
-    m_renderer = InitRenderer();
-}
-
-
-shared_ptr<RGBColor[]> SparsedSpheresScene::Render()
-{
-    m_renderer->Render();
-    return m_renderer->GetBuffer();
+    params.max_depth = 10;
+    m_renderer = make_shared<PathTracingRenderer>(m_camera, m_objets, move(params));
+    m_renderer->Init();
+    return m_renderer;
 }

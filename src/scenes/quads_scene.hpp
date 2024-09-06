@@ -6,9 +6,8 @@
 
 class Camera;
 class HittableList;
-class PathTracingRenderer;
 
-class SparsedSpheresScene: public IScene {
+class QuadsScene: public IScene {
 
 private:
 

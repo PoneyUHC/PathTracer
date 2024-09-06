@@ -1,7 +1,7 @@
 
 CXX = g++
 RM = rm -f
-CXXFLAGS = -O3 -Wall -Wpedantic -std=c++17 -MMD -MP -fopenmp
+CXXFLAGS = -O3 -Wall -Wpedantic -std=c++20 -MMD -MP -fopenmp
 
 EXEC = render.exe
 OUTPUT_DIR = output
@@ -37,7 +37,7 @@ $(EXEC): $(OBJS_LOCATION)
 
 $(BUILD_OBJS_DIR)/%.o: %.cpp Makefile
 	@$(eval CURRENT_TARGET=$(shell expr $(CURRENT_TARGET) + 1))
-	@printf "\rCompiling file $(CURRENT_TARGET) / $(NB_TARGETS)"
+	@printf "\rCompiling file $(CURRENT_TARGET) / $(NB_TARGETS) "
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 	@$(CXX) $(CXXFLAGS) -I $(SRC_DIR) -c $< -o $@
 

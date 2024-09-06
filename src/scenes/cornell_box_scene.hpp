@@ -7,7 +7,7 @@
 class Camera;
 class HittableList;
 
-class CheckeredSpheresScene: public IScene {
+class CornellBoxScene: public IScene {
 
 private:
 

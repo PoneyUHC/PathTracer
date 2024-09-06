@@ -107,3 +107,5 @@ inline Vec3 operator*(const Vec3& u, const Vec3& v) { return Vec3{u.e[0]*v.e[0],
 
 typedef Vec3 Point3;
 typedef Vec3 RGBColor;
+inline const RGBColor BLACK = RGBColor(0.0, 0.0, 0.0);
+inline const RGBColor WHITE = RGBColor(1.0, 1.0, 1.0);

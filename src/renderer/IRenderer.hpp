@@ -16,7 +16,8 @@ private:
 public:
 
     virtual ~IRenderer() {};
-    virtual void Render() = 0;
+    virtual void Init() = 0;
+    virtual void Render(int n_steps) = 0;
     virtual std::shared_ptr<RGBColor[]> GetBuffer() = 0;
 
 };

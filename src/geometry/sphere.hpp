@@ -13,8 +13,9 @@ private:
 
     Point3 m_center;
     double m_radius;
-    std::shared_ptr<IMaterial> m_material;
+
     AABB m_aabb;
+    std::shared_ptr<IMaterial> m_material;
 
 
 public:
