@@ -40,3 +40,6 @@ public:
 
     static const Interval Empty, Universe;
 };
+
+inline Interval operator+(const Interval& i, double offset) { return Interval(i.Min() + offset, i.Max() + offset); }
+inline Interval operator+(double offset, const Interval& i) { return Interval(i.Min() + offset, i.Max() + offset); }

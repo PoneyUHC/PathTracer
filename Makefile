@@ -10,7 +10,7 @@ BUILD_DIR = build
 BUILD_OBJS_DIR = $(BUILD_DIR)/binaries
 BUILD_EXEC_DIR = $(BUILD_DIR)/executable
 
-SRCS = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(SRC_DIR)/**/*.cpp)
+SRCS = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(SRC_DIR)/**/*.cpp) $(wildcard $(SRC_DIR)/**/**/*.cpp)
 OBJS =  $(patsubst %.cpp, %.o, $(SRCS))
 
 OBJS_LOCATION = $(patsubst %.o, $(BUILD_OBJS_DIR)/%.o, $(OBJS))

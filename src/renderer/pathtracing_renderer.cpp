@@ -35,7 +35,7 @@ PathTracingRenderer::PathTracingRenderer(
 void PathTracingRenderer::Render(int n_steps) {
 
     bool last_pass = false;
-    if(n_steps > m_params.aa_sample_per_pixel - m_render_step){
+    if(n_steps >= m_params.aa_sample_per_pixel - m_render_step){
         n_steps = m_params.aa_sample_per_pixel - m_render_step;
         last_pass = true;
     }

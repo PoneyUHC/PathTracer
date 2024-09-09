@@ -3,7 +3,7 @@
 
 
 #include "geometry/IHittable.hpp"
-
+#include "geometry/hittable_list.hpp"
 #include "math/vec.hpp"
 
 
@@ -35,4 +35,6 @@ public:
 
     bool Hit(const Ray& ray, const Interval& interval, HitRecord& outRecord) const override;
     AABB GetAABB() const override { return m_aabb; }
+
+    static std::shared_ptr<HittableList> Box(const Point3& a, const Point3& b, std::shared_ptr<IMaterial> mat);
 };

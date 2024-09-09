@@ -62,3 +62,27 @@ bool Quad::IsInQuad(double alpha, double beta, HitRecord& hit_record) const {
 
     return unit_interval.Contains(alpha) && unit_interval.Contains(beta);
 }
+
+
+shared_ptr<HittableList> Quad::Box(const Point3& a, const Point3& b, shared_ptr<IMaterial> mat)
+{
+    auto sides = make_shared<HittableList>();
+
+    auto min = Point3(std::fmin(a[0],b[0]), std::fmin(a[1],b[1]), std::fmin(a[2],b[2]));
+    auto max = Point3(std::fmax(a[0],b[0]), std::fmax(a[1],b[1]), std::fmax(a[2],b[2]));
+
+    auto dx = Vec3(max[0] - min[0], 0, 0);
+    auto dy = Vec3(0, max[1] - min[1], 0);
+    auto dz = Vec3(0, 0, max[2] - min[2]);
+
+    sides->AddObjects({
+        make_shared<Quad>(Point3(min[0], min[1], max[2]),  dx,  dy, mat), // front
+        make_shared<Quad>(Point3(max[0], min[1], max[2]), -dz,  dy, mat), // right
+        make_shared<Quad>(Point3(max[0], min[1], min[2]), -dx,  dy, mat), // back
+        make_shared<Quad>(Point3(min[0], min[1], min[2]),  dz,  dy, mat), // left
+        make_shared<Quad>(Point3(min[0], max[1], max[2]),  dx, -dz, mat), // top
+        make_shared<Quad>(Point3(min[0], min[1], min[2]),  dx,  dz, mat)  // bottom
+    });
+
+    return sides;
+}
