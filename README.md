@@ -8,3 +8,5 @@ I'm currently following the second book, [_Ray Tracing: The Next Week_](https://
 ![render](https://github.com/user-attachments/assets/80ad46aa-7ecf-4319-8522-2a76c55ea4c5)
 
 ![render](https://github.com/user-attachments/assets/9d786725-be7a-4f6a-961c-ab5e78fe2f8e)
+
+![render](https://github.com/user-attachments/assets/14aac5c5-1fe2-4fc8-baac-2ea86db6501f)
