@@ -65,8 +65,7 @@ shared_ptr<HittableList> CornellBoxScene::InitObjects()
     });
 
     if(m_params.enable_bvh) {
-        vector<shared_ptr<IHittable>> objects = hittable_list->CopyObjects();
-        auto root = make_shared<BVHNode>(objects, 0, objects.size());
+        auto root = make_shared<BVHNode>(hittable_list);
 
         hittable_list = make_shared<HittableList>();
         hittable_list->AddObject(root);

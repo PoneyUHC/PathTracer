@@ -23,7 +23,7 @@ double random_double()
 
 double random_double(double min, double max) 
 {
-    static std::uniform_real_distribution<double> distribution(min, max);
+    std::uniform_real_distribution<double> distribution(min, max);
     static std::random_device rd;
     static std::mt19937 generator(rd());
     return distribution(generator);

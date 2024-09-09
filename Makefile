@@ -35,7 +35,7 @@ $(EXEC): $(OBJS_LOCATION)
 
 -include $(DEPS)
 
-$(BUILD_OBJS_DIR)/%.o: %.cpp Makefile
+$(BUILD_OBJS_DIR)/%.o: %.cpp Makefile config.bash
 	@$(eval CURRENT_TARGET=$(shell expr $(CURRENT_TARGET) + 1))
 	@printf "\rCompiling file $(CURRENT_TARGET) / $(NB_TARGETS) "
 	@if [ ! -d $(dir $@) ]; then mkdir -p $(dir $@); fi
